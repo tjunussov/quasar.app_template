@@ -1,24 +1,34 @@
 <template lang="pug">
 q-page.q-pa-lg.flex.flex-center
+  template(slot="header")
+    q-separator
+    q-list.text-primary
+      q-item
+        q-item-section
+          q-item-label.text-h6.text-weight-bold The Fire Fisherman
+          q-item-label(caption lines) Pick up by 19:30
+        q-item-section(side top)
+          r-btn(icon="more_horiz")
+        q-item-section(side top)
+          r-btn(icon="map")
   .q-gutter-y-md.full-width
-    q-card.q-pa-md.full-width.shadow-light
+    r-card
       q-card-section.q-pt-none.q-gutter-md
-        q-input(label="Order ID" @dblclick="orderNum = '583039600'" v-model="orderNum" :rules="[ val => val.length >= 9 || 'Please use minimum 9 characters' ]" 
-)
+        q-input(label="Order ID" @dblclick="orderNum = '583039600'" v-model="orderNum" :rules="[ val => val.length >= 9 || 'Please use minimum 9 characters' ]" )
           template(v-slot:append)
-            q-btn(round dense flat icon="camera_alt")
+            r-btn(icon="camera_alt" color="grey")
       //- q-separator
       q-card-actions
-        r-btn(@click="pick") Pick
+        r-btn(@click="pick" :disabled="!orderNum") Pick
 
-    q-card.q-pa-md.full-width.shadow-light
-      q-card-section.q-pt-xs
-        .row.no-wrap.items-center.text-grey
-          .col.ellipsis Order 
-          .col-auto.text-caption {{order.date}}
-        .text-h4.text-weight-bold #
-          | {{order.id}}
+    r-card
+      q-card-section.q-pt-xs.row.no-wrap.items-center.text-grey
+        .col.ellipsis Order 
+        .col-auto.text-caption {{order.date}}
+      q-card-section.q-pt-xs.text-center
         .barcode {{encode(order.id)}}
+        .text-h5.text-weight-bold #
+          | {{order.id}}
       q-card-actions
         r-btn(@click="print") Print
 </template>

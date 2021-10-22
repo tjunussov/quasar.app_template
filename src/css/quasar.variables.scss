@@ -24,10 +24,10 @@ $info      : #31CCEC;
 $warning   : #F2C037;
 
 
-$typography-font-family : '-apple-system', 'Helvetica Neue', Helvetica, Arial, 'Roboto', sans-serif !default;
+$typography-font-family : 'Roboto','-apple-system', 'Helvetica Neue', Helvetica, Arial,  sans-serif !default;
 
 
-$body-font-size   : 16px !default;
+$body-font-size   : 18px !default;
 $body-line-height : 1.5 !default;
 
 $generic-border-radius          : 16px !default;
@@ -36,4 +36,4 @@ $min-line-height                : 1.12 !default;
 $button-border-radius           : 10px !default;
 $button-padding                 : 14px 20px !default;
 $button-dense-padding           : .285em !default;
-$button-font-size               : 16px !default;
+$button-font-size               : 20px !default;

@@ -4,7 +4,7 @@
     q-list.menu.q-pa-md
       q-item
         q-item-section
-          q-item-label Mümin Taş &nbsp;
+          q-item-label.text-weight-bold Mümin Taş &nbsp;
             q-badge(color="red") 3
           q-item-label Picker
           //- q-item-label Lock screen
@@ -26,18 +26,18 @@
           q-item-section(avatar): q-icon(name="local_shipping")
           q-item-section Rider
         q-separator.q-my-md()
-        q-item(clickable Zto="/analytics" disabled)
+        q-item(clickable Zto="/analytics")
           q-item-section(avatar): q-icon(name="tv")
-          q-item-section Rider Dashboard
+          q-item-section Dashboard
         q-separator.q-my-md()
         q-item(clickable Zto="/staff" disabled)
           q-item-section(avatar): q-icon(name="show_chart")
           q-item-section Reports
         
-        q-item(clickable Zto="/settings")
+        q-item(clickable Zto="/settings" disabled)
           q-item-section(avatar): q-icon(name="settings")
           q-item-section Admin
-        q-item(clickable Zto="/support")
+        q-item(clickable Zto="/support" disabled)
           q-item-section(avatar): q-icon(name="contact_support")
           q-item-section Manual
 
@@ -53,3 +53,8 @@ export default defineComponent({
   name: 'Menu',
 })
 </script>
+
+<style lang="sass">
+.text-small 
+  font-size: 14px
+</style>

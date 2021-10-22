@@ -1,6 +1,6 @@
-# Talabat App (app)
+# App (app)
 
-Talabat Delivery Management App
+Quasar App
 
 ## Install the dependencies
 ```bash
