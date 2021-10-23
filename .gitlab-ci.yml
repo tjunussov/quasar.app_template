@@ -14,7 +14,7 @@ pages: # the job must be named pages
     # - mv dist/spa public # rename the dist folder (result of npm run build)
   script:
     - mkdir .public
-    - cp -r dist/* .public
+    - cp -R dist/* .public
     - mv .public public
   artifacts:
     paths:
