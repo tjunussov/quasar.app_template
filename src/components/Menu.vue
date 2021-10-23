@@ -33,23 +33,23 @@
           q-item-section.q-ml-md(avatar): q-icon(name="inventory_2")
           q-item-section Packer
         q-separator(spaced="0" inset="item" dark)
-        q-item(clickable to="/ride")
+        q-item(clickable to="/ride" active-class="bg-indigo-8")
           q-item-section.q-ml-md(avatar): q-icon(name="local_shipping")
           q-item-section Rider
         q-separator.q-my-sm
-        q-item(clickable Zto="/analytics")
+        q-item(clickable to="/dashboard" active-class="bg-indigo-8")
           q-item-section.q-ml-md(avatar): q-icon(name="tv")
           q-item-section Dashboard
         q-separator.q-my-sm
-        q-item(clickable Zto="/staff" disabled)
+        q-item(clickable to="/reports" disabled active-class="bg-indigo-8")
           q-item-section.q-ml-md(avatar): q-icon(name="show_chart")
           q-item-section Reports
         q-separator(spaced="0" inset="item" dark)
-        q-item(clickable Zto="/settings" disabled)
+        q-item(clickable to="/settings" disabled active-class="bg-indigo-8")
           q-item-section.q-ml-md(avatar): q-icon(name="settings")
           q-item-section Admin
         q-separator(spaced="0" inset="item" dark)
-        q-item(clickable Zto="/support" disabled)
+        q-item(clickable to="/manual" disabled active-class="bg-indigo-8")
           q-item-section.q-ml-md(avatar): q-icon(name="contact_support")
           q-item-section Manual
 

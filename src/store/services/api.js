@@ -27,7 +27,7 @@ const instoreApi = {
 // PUT /locations/{location}/orders/{labelNumber}/picking-completed?trackingNumber={trackingNumber}
 
     pick(labelNumber,trackingNumber) {
-        return $http.put(`/locations/${this.location}/orders/${labelNumber}/picking-completed?trackingNumber=${trackingNumber}`).catch((error) => { handleError(error) })
+        return $http.put(`/locations/${this.location}/orders/${labelNumber}/picking-completed?trackingNumber=${trackingNumber}`,{labelNumber,trackingNumber}).catch((error) => { handleError(error) })
     },
 
 // 2. PACKER: Drop Order into Cell
@@ -38,7 +38,7 @@ const instoreApi = {
 // PUT /locations/{location}/orders/{labelNumber}/bagging-completed?cell={cell}
 
     pack(labelNumber,cell) {
-        return $http.put(`/locations/${this.location}/orders/${labelNumber}/bagging-completed?cell=${cell}`).catch((error) => { handleError(error) })
+        return $http.put(`/locations/${this.location}/orders/${labelNumber}/bagging-completed?cell=${cell}`,{labelNumber,cell}).catch((error) => { handleError(error) })
     },
 
 
@@ -49,7 +49,7 @@ const instoreApi = {
 // GET /locations/{location}/orders/check-in?trackingNumber={trackingNumber}
 
     riderCheckIn(trackingNumber) {
-        return $http.put(`/locations/${this.location}/orders/check-in?trackingNumber=${trackingNumber}`).catch((error) => { handleError(error) })
+        return $http.put(`/locations/${this.location}/orders/check-in?trackingNumber=${trackingNumber}`,{trackingNumber}).catch((error) => { handleError(error) })
     },
 
 // 4. RIDER: Pick and Check-out
@@ -59,7 +59,7 @@ const instoreApi = {
 // PUT /locations/{location}/orders/{labelNumber}/check-out
 
     ride(labelNumber) {
-        return $http.put(`/locations/${this.location}/orders/${labelNumber}/check-out`).catch((error) => { handleError(error) })
+        return $http.put(`/locations/${this.location}/orders/${labelNumber}/check-out`,{labelNumber}).catch((error) => { handleError(error) })
     },
 
     dashboard() {

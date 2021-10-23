@@ -7,16 +7,20 @@ var plan = {
 };
 
 /* /\/users\/\d+/ */
-const $mock = new MockAdapter($http,{delayResponse:1000}) 
+const $mock = new MockAdapter($http,{delayResponse:500}) 
 .onAny(/\/locations\/demo\/orders\/\d+\/picking-completed\?trackingNumber=\d+/).reply((cfg)=>{
-  console.debug("Mock picking-completed",cfg);
-  return [200,{"result": "Picking Done"}];
+  // console.debug("Mock picking-completed",cfg);
+  var data = JSON.parse(cfg.data);
+  console.debug(data.trackingNumber);
+  return [200,{"result": "Picking Done with Tracking Number " + data.trackingNumber}];
 })
-.onAny(/\/locations\/demo\/orders\/\d+\/bagging-completed\?cell=\d+/).reply((cfg)=>{
+.onAny(/\/locations\/demo\/orders\/\d+\/bagging-completed\?cell=\d+?/).reply((cfg)=>{
   return [200,{"result": "Bagging Done"}];
 })
-.onAny(/\/locations\/demo\/orders\/check-in\?trackingNumber=\d+/).reply((cfg)=>{
-  return [200,{"result": "Checking In Done"}];
+.onAny(/\/locations\/demo\/orders\/check-in\?trackingNumber=\d+?/).reply((cfg)=>{
+  var data = JSON.parse(cfg.data);
+  console.debug(data.trackingNumber);
+  return [200,{"result": "Checking In Done with Tracking Number = " + data.trackingNumber}];
 })
 .onAny(/\/locations\/demo\/orders\/\d+\/check-out/).reply((cfg)=>{
   return [200,{"result": "Checking Out Done"}];
