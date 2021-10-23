@@ -6,7 +6,9 @@
   "author": "Tastamat Team",
   "private": true,
   "scripts": {
-    "test": "echo \"No test specified\" && exit 0"
+    "test": "echo \"No test specified\" && exit 0",
+    "boot": "quasar new boot notify",
+    "icon": "icongenie generate -i public/favlogo.png"
   },
   "dependencies": {
     "@quasar/extras": "^1.0.0",

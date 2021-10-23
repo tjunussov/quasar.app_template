@@ -1,49 +1,62 @@
 <template lang="pug">
 .full-height.column
   .col(Zstyle="height: calc(100% - 150px); margin-top: 150px; border-right: 1px solid #ddd")
-    q-list.menu.q-pa-md
-      q-item
-        q-item-section
-          q-item-label.text-weight-bold Mümin Taş &nbsp;
+    q-list.text-weight-medium(dark)
+      q-item.q-my-md
+        q-item-section.q-ml-md
+          q-item-label.q-pl-xs.text-weight-bold Mümin Taş &nbsp;
             q-badge(color="red") 3
-          q-item-label Picker
-          //- q-item-label Lock screen
-        q-item-section(side)
+          //- q-item-label 
+            
           q-item-label
-            q-badge PRO
-      q-separator.q-my-md()
-      q-list(Zbordered=''  Zseparator)
+            q-chip.q-ma-none(icon-right="keyboard_arrow_down" Zdense text-color="white" color="grey-7") Dubai
+                q-menu(square )
+                  q-list(separator )
+                    q-item(clickable v-close-popup)
+                      q-item-section
+                        q-item-label Dubai
+                    q-item(clickable v-close-popup)
+                      q-item-section
+                        q-item-label AbuDhabi
+          //- q-item-label
+            q-badge PICKER
+      //- q-separator(dark)
+      q-list(dark)
         //- q-item(clickable to="/"  :active="true")
         //-   q-item-section(avatar): q-icon(name="home")
         //-   q-item-section Home
-        q-item(clickable to="/pick")
-          q-item-section(avatar): q-icon(name="shopping_basket")
+        q-item(clickable to="/pick" active-class="bg-indigo-8")
+          q-item-section.q-ml-md(avatar): q-icon(name="shopping_basket")
           q-item-section Picker
-        q-item(clickable to="/pack")
-          q-item-section(avatar): q-icon(name="inventory_2")
+        q-separator.q-my-none(spaced="0" inset="item" dark)
+        q-item(clickable to="/pack" active-class="bg-indigo-8")
+          q-item-section.q-ml-md(avatar): q-icon(name="inventory_2")
           q-item-section Packer
+        q-separator(spaced="0" inset="item" dark)
         q-item(clickable to="/ride")
-          q-item-section(avatar): q-icon(name="local_shipping")
+          q-item-section.q-ml-md(avatar): q-icon(name="local_shipping")
           q-item-section Rider
-        q-separator.q-my-md()
+        q-separator.q-my-sm
         q-item(clickable Zto="/analytics")
-          q-item-section(avatar): q-icon(name="tv")
+          q-item-section.q-ml-md(avatar): q-icon(name="tv")
           q-item-section Dashboard
-        q-separator.q-my-md()
+        q-separator.q-my-sm
         q-item(clickable Zto="/staff" disabled)
-          q-item-section(avatar): q-icon(name="show_chart")
+          q-item-section.q-ml-md(avatar): q-icon(name="show_chart")
           q-item-section Reports
-        
+        q-separator(spaced="0" inset="item" dark)
         q-item(clickable Zto="/settings" disabled)
-          q-item-section(avatar): q-icon(name="settings")
+          q-item-section.q-ml-md(avatar): q-icon(name="settings")
           q-item-section Admin
+        q-separator(spaced="0" inset="item" dark)
         q-item(clickable Zto="/support" disabled)
-          q-item-section(avatar): q-icon(name="contact_support")
+          q-item-section.q-ml-md(avatar): q-icon(name="contact_support")
           q-item-section Manual
 
   .text-grey.text-center.text-small.q-pb-lg(dark)    
-    | &copy;2021 Tastamat Ver 
-    router-link(to="/") {{$version}} 
+    img(src='/logo_text.svg' style="height:18px; width:100px; Zmargin-bottom: -2px; opacity:0.8 ")
+    .text-caption &copy;2021 Version 
+      router-link(to="/") {{$version}} 
 </template>
 
 <script>

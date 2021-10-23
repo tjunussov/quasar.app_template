@@ -16,7 +16,7 @@ q-page.q-pa-lg.flex.flex-center
       q-card-section.q-pt-none.q-gutter-md
         q-input(label="Order ID" @dblclick="orderNum = '583039600'" v-model="orderNum" :rules="[ val => val.length >= 9 || 'Please use minimum 9 characters' ]" )
           template(v-slot:append)
-            r-btn(icon="camera_alt" color="grey")
+            r-btn(icon="camera_alt" color="grey" @click="scan")
       //- q-separator
       q-card-actions
         r-btn(@click="pick" :disabled="!orderNum") Pick
@@ -37,6 +37,7 @@ q-page.q-pa-lg.flex.flex-center
 
 import { defineComponent, ref, reactive } from 'vue'
 import { useQuasar } from 'quasar'
+import { $api } from '../store/services/api'
 
 import Encoder from 'code-128-encoder'
 var code128= new Encoder()
@@ -62,11 +63,26 @@ export default defineComponent({
       order,
       pick () {
         order.id = orderNum.value
+        $api.pick(order.id,order.id).then((resp)=>{
+          console.debug('$api.pick',order.id,'resp->',resp.data);
+          $q.notify({ type: 'info',color: 'primary',message: resp.data.result })
+        });
+      },
+      scan(){
+        $q.dialog({
+          title: 'OCR Scaner',
+          message: 'Please scan screen'
+        }).onOk(()=>{
+          orderNum.value = '583039599'
+        })
       },
       print(){
         console.log('Printing');
         $q.notify({
-          message: 'Printed',
+          spinner: true,
+          timeout: 1000,
+          position: 'top',
+          message: 'Printing Label',
           color: 'primary'
         })
       },
