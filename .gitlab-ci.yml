@@ -10,6 +10,7 @@ pages: # the job must be named pages
     # - mv public public-vue # GitLab Pages hooks on the public folder
     # - mv dist/spa public # rename the dist folder (result of npm run build)
   script:
+    - rm public
     - mkdir .public
     - cp -R dist/spa/* .public
     - mv .public public
