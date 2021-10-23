@@ -1,6 +1,3 @@
-# This file is a template, and might need editing before it works on your project.
-# Full project: https://gitlab.com/pages/plain-html
-
 pages: # the job must be named pages
   # image: node:latest
   # cache:
@@ -13,9 +10,8 @@ pages: # the job must be named pages
     # - mv public public-vue # GitLab Pages hooks on the public folder
     # - mv dist/spa public # rename the dist folder (result of npm run build)
   script:
-    - mv public publicX
     - mkdir .public
-    - cp -R dist/* .public
+    - cp -R dist/spa/* .public
     - mv .public public
   artifacts:
     paths:
