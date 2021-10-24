@@ -2,17 +2,17 @@
 layout
   template(v-slot:header) Ride
   q-page.q-pa-lg.flex.flex-center
-    .full-width
-      r-card.q-mt-md
-        q-card-section.q-pt-none.q-gutter-md
+    .q-gutter-y-md.full-width
+      r-card
+        q-card-section
           InputLabel(label="Tracking No" v-model="trackingNumber" length="9")
-        q-card-actions(vertical)
+        q-card-actions
           r-btn(@click="riderCheckIn" text-color="primary" outline :disabled="!trackingNumber") Check In
 
-      r-card.q-mt-md
-        q-card-section.q-pt-none.q-gutter-md
+      r-card
+        q-card-section
           InputLabel(label="Label No" v-model="labelNumber" length="4")
-        q-card-actions(vertical)
+        q-card-actions
           r-btn(@click="ride" :disabled="!labelNumber") Ride
           
 </template>
@@ -64,6 +64,7 @@ export default defineComponent({
         $api.ride(order.labelNumber).then((resp)=>{
           console.debug('$api.ride',order.labelNumber,'resp->',resp);
           $q.notify({ type: 'info',color: 'primary',message: resp.result })
+          localStorage.removeItem('labelNumber');
         });
       },
       // scanTrack(){

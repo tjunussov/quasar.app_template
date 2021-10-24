@@ -1,7 +1,7 @@
 <template lang="pug">
 layout
   template(v-slot:header) Dashboard
-  template(v-slot:footer) 
+  template(v-slot:footer) r-empty
   q-page.q-pa-md
     q-list.bg-white( bordered separator)
       q-item.q-pa-md(v-for="q in queue")
@@ -10,7 +10,7 @@ layout
           q-item-label(v-if="q.referenceNumber") {{q.trackingNumber}}
         q-item-section(side Ztop)
           q-item-label.text-h6.text-dark.text-weight-bold {{q.cellCode}}
-          q-item-label.text-grey Time {{q.created}}
+          //- q-item-label.text-grey Time {{q.created}}
 
     q-list(v-if="!queue.length")
       q-item.q-pa-md
@@ -25,6 +25,7 @@ layout
 import { defineComponent, ref, reactive } from 'vue'
 import { useQuasar } from 'quasar'
 import { $api } from '../store/services/api'
+import { $sound } from '../store/services/sound'
 
 import layout from 'layouts/AppLayout.vue'
 
@@ -52,9 +53,10 @@ export default {
   },
   created(){
     this.dash();
-    // intr = window.setInterval(this.dash,5000);
+    intr = window.setInterval(this.dash,5000);
   },
-  beforeDestroy(){
+  beforeUnmount(){
+    console.debug('beforeDestroy',intr);
     window.clearInterval(intr)
   },
   components: {
@@ -64,6 +66,7 @@ export default {
     dash() {
       $api.dashboard().then((resp)=>{
         console.debug('$api.dashboard','resp->');
+        if(this.queue.length != resp.data.length) $sound.queue();
         this.queue = resp.data;
       });
     },

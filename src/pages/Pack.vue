@@ -4,25 +4,27 @@ layout
   q-page.q-pa-lg.flex.flex-center
     .q-gutter-y-md.full-width
       r-card
-        q-card-section.q-pt-none.q-gutter-md
+        q-card-section
           q-input(ref="inputRef" label="Label" @dblclick="labelNumber = '583039600'" v-model="labelNumber" Zrules="[ val => val.length >= 9 || 'Please use minimum 9 characters' ]" )
             template(v-slot:append)
               r-btn(icon="camera_alt" color="grey" @click="scan")
         q-card-actions
           r-btn(@click="pack" text-color="primary" outline :disabled="!labelNumber") Info
 
-      r-card
-        q-card-section.q-pt-none.q-gutter-md
-          q-input(label="Cell" @dblclick="cell = '12'" v-model="cell" Zrules="[ val => val.length >= 1 || 'Please use minimum 9 characters' ]" )
-            template(v-slot:append)
-              r-btn(icon="camera_alt" color="grey" @click="scan")
-        //- q-separator
-        q-card-actions
-          r-btn(@click="pack" :disabled="!cell || !labelNumber") Pack
+      q-slide-transition
+        r-card(v-show="labelNumber")
+          q-card-section
+            q-input(label="Cell" @dblclick="cell = 'CELL-DEV-01'" v-model="cell" Zrules="[ val => val.length >= 1 || 'Please use minimum 9 characters' ]" )
+              template(v-slot:append)
+                r-btn(icon="camera_alt" color="grey" @click="scan")
+          //- q-separator
+          q-card-actions
+            r-btn(@click="pack" :disabled="!cell || !labelNumber") Pack
 </template>
 
 <script>
 
+import InputLabel from 'components/InputLabel.vue'
 import { defineComponent, ref, reactive } from 'vue'
 import { useQuasar } from 'quasar'
 import { $api } from '../store/services/api'
@@ -32,7 +34,8 @@ export default defineComponent({
   name: 'Pack',
 
   components: {
-    layout
+    layout,
+    InputLabel
   },
 
   setup () {
@@ -46,6 +49,7 @@ export default defineComponent({
       cell.value = '';
       labelNumber.value = '';
       inputRef.value.resetValidation();
+      
     }
 
     return {
@@ -65,8 +69,9 @@ export default defineComponent({
           title: 'OCR Scaner',
           message: 'Please scan screen'
         }).onOk(()=>{
-          labelNumber.value = '583039599'
-          cell.value = '12'
+          labelNumber.value = (localStorage.getItem('labelNumber') !== null) ? localStorage.getItem('labelNumber') : Math.ceil(Math.random()*100000)
+          localStorage.setItem('labelNumber',labelNumber.value)
+          cell.value = 'CELL-DEV-01'
         })
       },
       
