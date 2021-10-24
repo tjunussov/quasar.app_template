@@ -20,3 +20,14 @@ quasar build
 
 ### Customize the configuration
 See [Configuring quasar.conf.js](https://quasar.dev/quasar-cli/quasar-conf-js).
+
+
+### 
+TODO
+- dashboard, picking, packing, sounds
+- dashboard time bug format
+- InputLabel reusable component
+- localStorage or Idb remember settings
+- printer EPL
+- error toster
+- print as dialog withtimeout
