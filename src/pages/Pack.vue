@@ -1,14 +1,24 @@
 <template lang="pug">
-q-page.q-pa-lg.flex.flex-center
-  .q-gutter-y-md.full-width
-    r-card
-      q-card-section.q-pt-none.q-gutter-md
-        q-input(label="Order ID" @dblclick="orderNum = '583039600'" v-model="orderNum" :rules="[ val => val.length >= 9 || 'Please use minimum 9 characters' ]" )
-          template(v-slot:append)
-            r-btn(icon="camera_alt" color="grey" @click="scan")
-      //- q-separator
-      q-card-actions
-        r-btn(@click="pack" :disabled="!orderNum") Pack
+layout
+  template(v-slot:header) Pack
+  q-page.q-pa-lg.flex.flex-center
+    .q-gutter-y-md.full-width
+      r-card
+        q-card-section.q-pt-none.q-gutter-md
+          q-input(ref="inputRef" label="Label" @dblclick="labelNumber = '583039600'" v-model="labelNumber" Zrules="[ val => val.length >= 9 || 'Please use minimum 9 characters' ]" )
+            template(v-slot:append)
+              r-btn(icon="camera_alt" color="grey" @click="scan")
+        q-card-actions
+          r-btn(@click="pack" text-color="primary" outline :disabled="!labelNumber") Info
+
+      r-card
+        q-card-section.q-pt-none.q-gutter-md
+          q-input(label="Cell" @dblclick="cell = '12'" v-model="cell" Zrules="[ val => val.length >= 1 || 'Please use minimum 9 characters' ]" )
+            template(v-slot:append)
+              r-btn(icon="camera_alt" color="grey" @click="scan")
+        //- q-separator
+        q-card-actions
+          r-btn(@click="pack" :disabled="!cell || !labelNumber") Pack
 </template>
 
 <script>
@@ -16,35 +26,38 @@ q-page.q-pa-lg.flex.flex-center
 import { defineComponent, ref, reactive } from 'vue'
 import { useQuasar } from 'quasar'
 import { $api } from '../store/services/api'
-
-import Encoder from 'code-128-encoder'
-var code128= new Encoder()
+import layout from 'layouts/AppLayout.vue'
 
 export default defineComponent({
   name: 'Pack',
 
   components: {
+    layout
   },
 
   setup () {
     const $q = useQuasar()
-    const orderNum = ref('')
-    const order = reactive({
-      id: '583039599',
-      key: '#3918',
-      address: 'Talabat Mart, Port Saed',
-      date: '07-05-2021 15:55:43'
-    })
+    
+    const labelNumber = ref('')
+    const cell = ref('')
+    const inputRef = ref(null)
+    
+    function clear(){
+      cell.value = '';
+      labelNumber.value = '';
+      inputRef.value.resetValidation();
+    }
 
     return {
-      orderNum,
-      order,
+      inputRef,
+      labelNumber,
+      cell,
       pack () {
-        order.id = orderNum.value
         // labelNumber,cell
-        $api.pack(order.id,order.id).then((resp)=>{
-          console.debug('$api.pack',order.id,'resp->',resp.data);
-          $q.notify({ type: 'info',color: 'primary',message: resp.data.result })
+        $api.pack(labelNumber.value,cell.value).then((resp)=>{
+          console.debug('$api.pack',labelNumber.value,cell.value,'resp->',resp);
+          $q.notify({ type: 'info',color: 'primary',message: resp.result })
+          clear();
         });
       },
       scan(){
@@ -52,24 +65,13 @@ export default defineComponent({
           title: 'OCR Scaner',
           message: 'Please scan screen'
         }).onOk(()=>{
-          orderNum.value = '583039599'
+          labelNumber.value = '583039599'
+          cell.value = '12'
         })
       },
-      print(){
-        console.log('Printing');
-        $q.notify({
-          spinner: true,
-          timeout: 1000,
-          position: 'top',
-          message: 'Printing Label',
-          color: 'primary'
-        })
-      },
-      encode(val){
-        return code128.encode(val)
-      },
+      
     }
-  }
+  },
 })
 </script>
 

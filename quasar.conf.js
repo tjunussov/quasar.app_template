@@ -98,7 +98,7 @@ module.exports = configure(function (ctx) {
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-devServer
     devServer: {
       https: false,
-      host:'0.0.0.0',
+      host:'localhost',
       port: 8080,
       headers: {
         'X-Server-Name': 'DEV'
@@ -167,9 +167,9 @@ module.exports = configure(function (ctx) {
       },
 
       manifest: {
-        name: `Talabat App`,
-        short_name: `Talabat App`,
-        description: `Talabat Delivery Management App`,
+        name: `Instore App`,
+        short_name: `Instore App`,
+        description: `Instore Delivery Management App`,
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#ffffff',

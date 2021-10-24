@@ -9,13 +9,13 @@
           //- q-item-label 
             
           q-item-label
-            q-chip.q-ma-none(icon-right="keyboard_arrow_down" Zdense text-color="white" color="grey-7") Dubai
+            q-chip.q-ma-none(icon-right="keyboard_arrow_down" Zdense text-color="white" color="grey-7") {{menu.value.name}}
                 q-menu(square )
                   q-list(separator )
-                    q-item(clickable v-close-popup)
+                    q-item(clickable v-close-popup :active="menu.value.name=='Dubai'" @click="select({name:'Dubai',code:'demo'})")
                       q-item-section
                         q-item-label Dubai
-                    q-item(clickable v-close-popup)
+                    q-item(clickable v-close-popup :active="menu.value.name=='AbuDhabi'" @click="select({name:'AbuDhabi',code:'DEV'})")
                       q-item-section
                         q-item-label AbuDhabi
           //- q-item-label
@@ -60,10 +60,26 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+
+import { defineComponent, ref, reactive } from 'vue'
+import { $api } from '../store/services/api'
 
 export default defineComponent({
   name: 'Menu',
+
+  setup () {
+
+    const menu = reactive({value:{name:'Dubai', code:'demo'}})
+
+    return {
+      menu,
+      select(v) {
+        $api.location = v.code;
+        menu.value = v;
+      }
+    }
+  }
+        
 })
 </script>
 

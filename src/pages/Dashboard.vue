@@ -1,6 +1,22 @@
 <template lang="pug">
-q-page.q-pa-lg.flex.flex-center
-  q-btn(color="grey" @click="dash") Dashboard
+layout
+  template(v-slot:header) Dashboard
+  template(v-slot:footer) 
+  q-page.q-pa-md
+    q-list.bg-white( bordered separator)
+      q-item.q-pa-md(v-for="q in queue")
+        q-item-section
+          q-item-label.text-h6.text-weight-bold \#{{q.referenceNumber||q.trackingNumber}}
+          q-item-label(v-if="q.referenceNumber") {{q.trackingNumber}}
+        q-item-section(side Ztop)
+          q-item-label.text-h6.text-dark.text-weight-bold {{q.cellCode}}
+          q-item-label.text-grey Time {{q.created}}
+
+    q-list(v-if="!queue.length")
+      q-item.q-pa-md
+        q-item-section
+          q-item-label.text-h6.text-weight-bold.text-center No rider is waiting ... 
+
     
 </template>
 
@@ -10,36 +26,50 @@ import { defineComponent, ref, reactive } from 'vue'
 import { useQuasar } from 'quasar'
 import { $api } from '../store/services/api'
 
-export default defineComponent({
+import layout from 'layouts/AppLayout.vue'
+
+let intr = null;
+
+export default {
   name: 'Dashboard',
-
-  components: {
-  },
-
-  setup () {
-    const $q = useQuasar()
-    const orderNum = ref('')
-    const order = reactive({
-      id: '583039599',
-      key: '#3918',
-      address: 'Talabat Mart, Port Saed',
-      date: '07-05-2021 15:55:43'
-    })
-
+  data () {
     return {
-      orderNum,
-      order,
-      dash() {
-        order.id = orderNum.value
-        // labelNumber
-        $api.dashboard().then((resp)=>{
-          console.debug('$api.dashboard',order.id,'resp->',resp.data);
-          $q.notify({ type: 'info',color: 'primary',message: resp.data.result })
-        });
-      },
+      queue:[
+    // {
+    //   "id": 1,
+    //   "created": "2021-10-24T21:15:22.659384+06:00",
+    //   "modified": "2021-10-24T21:21:20.64168+06:00",
+    //   "locationCode": "DEMO",
+    //   "cellCode": "CELL-DEV-01",
+    //   "trackingNumber": "1230982192",
+    //   "labelNumber": "1230982192",
+    //   "status": "COMPLETED",
+    //   "waiting": true,
+    //   "history": null
+    // }
+  ]
     }
+  },
+  created(){
+    this.dash();
+    // intr = window.setInterval(this.dash,5000);
+  },
+  beforeDestroy(){
+    window.clearInterval(intr)
+  },
+  components: {
+    layout
+  },
+  methods:{
+    dash() {
+      $api.dashboard().then((resp)=>{
+        console.debug('$api.dashboard','resp->');
+        this.queue = resp.data;
+      });
+    },
   }
-})
+};
+
 </script>
 
 <style lang="sass" scoped>

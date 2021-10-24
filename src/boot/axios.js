@@ -8,7 +8,7 @@ import { Notify } from 'quasar'
 // good idea to move this instance creation inside of the
 // "export default () => {}" function below (which runs individually
 // for each client)
-const $http = axios.create({ baseURL: 'https://instore.tastamat.com' })
+const $http = axios.create({ baseURL: 'https://app.instore.tastamat.com/api' })
 
 export default boot(({ app }) => {
   // for use inside Vue files (Options http) through this.$axios and this.$http

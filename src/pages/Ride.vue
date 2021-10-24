@@ -1,84 +1,87 @@
 <template lang="pug">
-q-page.q-pa-lg.flex.flex-center
-  .full-width
-    
-    r-card.q-mt-md
-      q-card-section.q-pt-none.q-gutter-md
-        q-input(label="Order ID" @dblclick="orderNum = '583039600'" v-model="orderNum" :rules="[ val => val.length >= 9 || 'Please use minimum 9 characters' ]" )
-          template(v-slot:append)
-            r-btn(icon="camera_alt" color="grey" @click="scan")
-      //- q-separator
-      q-card-actions(vertical)
-        r-btn(@click="riderCheckIn" :disabled="!orderNum") Check In
-        r-btn(@click="ride" :disabled="!orderNum") Ride
-        
+layout
+  template(v-slot:header) Ride
+  q-page.q-pa-lg.flex.flex-center
+    .full-width
+      r-card.q-mt-md
+        q-card-section.q-pt-none.q-gutter-md
+          InputLabel(label="Tracking No" v-model="trackingNumber" length="9")
+        q-card-actions(vertical)
+          r-btn(@click="riderCheckIn" text-color="primary" outline :disabled="!trackingNumber") Check In
+
+      r-card.q-mt-md
+        q-card-section.q-pt-none.q-gutter-md
+          InputLabel(label="Label No" v-model="labelNumber" length="4")
+        q-card-actions(vertical)
+          r-btn(@click="ride" :disabled="!labelNumber") Ride
+          
 </template>
 
 <script>
 
+import InputLabel from 'components/InputLabel.vue'
+import layout from 'layouts/AppLayout.vue'
 import { defineComponent, ref, reactive } from 'vue'
 import { useQuasar } from 'quasar'
 import { $api } from '../store/services/api'
-
-import Encoder from 'code-128-encoder'
-var code128= new Encoder()
 
 export default defineComponent({
   name: 'Ride',
 
   components: {
+    layout,
+    InputLabel
   },
 
   setup () {
     const $q = useQuasar()
-    const orderNum = ref('')
+    const labelNumber = ref('')
+    const trackingNumber = ref('')
     const order = reactive({
-      id: '583039599',
+      labelNumber: '583039599',
+      trackingNumber: '#3918',
       key: '#3918',
       address: 'Talabat Mart, Port Saed',
       date: '07-05-2021 15:55:43'
     })
 
     return {
-      orderNum,
+      labelNumber,
+      trackingNumber,
       order,
-      ride() {
-        order.id = orderNum.value
-        // labelNumber
-        $api.ride(order.id).then((resp)=>{
-          console.debug('$api.ride',order.id,'resp->',resp.data);
-          $q.notify({ type: 'info',color: 'primary',message: resp.data.result })
-        });
-      },
       riderCheckIn() {
-        order.id = orderNum.value
+        
+        order.trackingNumber = trackingNumber.value
         // trackingNumber
-        $api.riderCheckIn(order.id).then((resp)=>{
-          console.debug('$api.riderCheckIn',order.id,'resp->',resp.data);
-          $q.notify({ type: 'info',color: 'primary',message: resp.data.result })
+        $api.riderCheckIn(order.trackingNumber).then((resp)=>{
+          console.debug('$api.riderCheckIn',order.trackingNumber,'resp->',resp);
+          $q.notify({ type: 'info',color: 'primary',message: resp.result })
         });
       },
-      scan(){
-        $q.dialog({
-          title: 'OCR Scaner',
-          message: 'Please scan screen'
-        }).onOk(()=>{
-          orderNum.value = '583039599'
-        })
+      ride() {
+        order.labelNumber = labelNumber.value
+        // labelNumber
+        $api.ride(order.labelNumber).then((resp)=>{
+          console.debug('$api.ride',order.labelNumber,'resp->',resp);
+          $q.notify({ type: 'info',color: 'primary',message: resp.result })
+        });
       },
-      print(){
-        console.log('Printing');
-        $q.notify({
-          spinner: true,
-          timeout: 1000,
-          position: 'top',
-          message: 'Printing Label',
-          color: 'primary'
-        })
-      },
-      encode(val){
-        return code128.encode(val)
-      },
+      // scanTrack(){
+      //   $q.dialog({
+      //     title: 'OCR Scaner',
+      //     message: 'Please scan screen'
+      //   }).onOk(()=>{
+      //     trackingNumber.value = '583039599'
+      //   })
+      // },
+      // scan(){
+      //   $q.dialog({
+      //     title: 'OCR Scaner',
+      //     message: 'Please scan screen'
+      //   }).onOk(()=>{
+      //     labelNumber.value = '583039599'
+      //   })
+      // },
     }
   }
 })

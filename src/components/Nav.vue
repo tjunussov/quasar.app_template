@@ -1,5 +1,5 @@
 <template lang="pug">
-q-tabs.my-tabs(v-model="tabs" stretch Zalign="justify" no-caps active-color="primary" switch-indicator indicator-color="transparent")
+q-tabs.my-tabs(v-model="tabs" stretch align="justify" no-caps active-color="primary" switch-indicator indicator-color="transparent")
   //- q-tab(icon='shopping' to='/account/store' label='Stores')
   //- q-tab(icon='giftcard' to='/account/store/producs' label='Products')
   //- q-tab(icon='shopping' to='/account/store/shopping' label='Cart')
