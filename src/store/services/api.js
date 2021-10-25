@@ -1,5 +1,6 @@
 import { $http } from 'boot/axios'
 import { Notify } from 'quasar'
+import { $sound } from '../../store/services/sound'
 
 function handleError(error) {
     const errorMessage = error
@@ -44,10 +45,10 @@ const instoreApi = {
         return this.track({labelNumber,status:'PACKING_STARTED'});
     },
     ride(labelNumber) {
-      return this.track({labelNumber,status:'RIDER_COMPLETED'});
+      return this.track({labelNumber,status:'RIDER_CHECKEDOUT'});
     },
     riderCheckIn(trackingNumber) {
-      return this.track({trackingNumber,status:'RIDER_CHECKIN'});
+      return this.track({trackingNumber,status:'RIDER_CHECKEDIN'});
     },
     
 
@@ -130,6 +131,8 @@ const $api = process.env.CORDOVA === 'true' ? instoreApi : instoreApi
 
 
 function resultBuilder(resp){
+  $sound.track();
+
   resp = resp.data;
   resp.result = "Order" + 
   (resp.trackingNumber?' Tracking '+resp.trackingNumber:'') + 

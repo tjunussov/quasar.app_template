@@ -8,7 +8,7 @@ layout
     .q-gutter-y-md.full-width
 
       q-dialog(v-model="showPrintDialog" size="lg")
-        q-card.full-width.q-pa-lg.Zno-border-radius.no-box-shadow(style="padding-top:50%")
+        q-card.full-width.q-pa-lg.Zno-border-radius.no-box-shadow
           print(ref="printRef" :order="order")
           //- q-card-section.q-pt-xs.row.no-wrap.items-center.text-grey
           //-   .col.ellipsis {{trackingNumber}} 
@@ -20,19 +20,14 @@ layout
           q-card-actions
             r-btn(Zclick="printRef.print" text-color="primary" outline) Print
 
-      r-card()
-        q-card-section.q-pt-none
-          q-input(label="Tracking No" @dblclick="trackingNumber = '#3918'" v-model="trackingNumber" Zrules="[ val => val.length >= 4 || 'Please use minimum 4 characters' ]" )
-            template(v-slot:append)
-              r-btn(icon="camera_alt" color="grey" @click="scan")
-        q-card-section.q-pa-none 
+      r-card
+        q-card-section
+          InputLabel(label="Tracking Number" v-model="trackingNumber" length="9")
+        q-card-section.q-pa-none.q-pl-xs
           q-checkbox(v-model="useLabel" @click="labelNumber = ''") Use Label
-
-        q-card-section.q-pt-none.q-gutter-md(v-if="useLabel || labelNumber")
-          q-input(label="Label No" @dblclick="labelNumber = '583039600'" v-model="labelNumber" Zrules="[ val => val.length >= 9 || 'Please use minimum 9 characters' ]" )
-            template(v-slot:append)
-              r-btn(icon="camera_alt" color="grey" @click="scan")
-        //- q-separator
+        q-slide-transition
+          q-card-section(v-show="useLabel")
+            InputLabel(label="Label Number" type="barcode" v-model="labelNumber" length="4")
         q-card-actions
           r-btn(@click="pick" :disabled="!trackingNumber") Pick
 
@@ -68,7 +63,13 @@ export default defineComponent({
       
     }
   },
-
+  watch:{
+    showPrintDialog(v){
+      if(v) window.setTimeout(()=>{
+        this.showPrintDialog = false
+      },4000)
+    }
+  },
   setup () {
     const $q = useQuasar()
     const labelNumber = ref(null)

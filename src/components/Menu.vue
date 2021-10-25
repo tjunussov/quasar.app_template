@@ -56,7 +56,7 @@
   .text-grey.text-center.text-small.q-pb-lg(dark)    
     img(src='/logo_text.svg' style="height:18px; width:100px; Zmargin-bottom: -2px; opacity:0.8 ")
     .text-caption &copy;2021 Version 
-      router-link(to="/") {{$version}} 
+      span.text-underline(to="/") {{$version}} 
 </template>
 
 <script>

@@ -1,7 +1,7 @@
 <template lang="pug">
-q-input(label="LabelZ No" v-model="input" Zrules="[ val => val.length >= LENGTH || 'Please use minimum '+LENGTH+' characters' ]" )
+q-input(:label="label" :modelValue="input" update:modelValue="input = $event" Zrules="[ val => val.length >= LENGTH || 'Please use minimum '+LENGTH+' characters' ]" )
   template(v-slot:append)
-    r-btn(icon="camera_alt" color="grey" @click="scan")
+    r-btn(icon="camera_alt" color="grey" @click="scanOCR")
 </template>
 
 <script>
@@ -14,43 +14,49 @@ import { $sound } from '../store/services/sound'
 export default defineComponent({
   name: 'InputLabel',
   props: {
-    color: {
+    label: {
       type: String,
-      default: 'primary'
+      default: 'Default'
     },
-    textColor: {
+    length: {
       type: String,
-      default: 'white'
+      default: 1
     },
-    icon: {
+    modelValue:String,
+    message:{
       type: String,
-      default: null
+      default: 'Please scan screen'
     },
+    type:{
+      type: String,
+      default: 'ocr'
+    },
+    defaultValue:String,
     disabled: {
       type: Boolean,
       default: false
     },
   },
-
-  setup (props) {
-    const $q = useQuasar()
-    const input = ref('')
-    const LENGTH = 9;
-    
+  watch:{
+     modelValue(v){
+       this.input = v
+     }
+  },
+  data(){
     return {
-      input,
-      LENGTH,
-      scan(){
-        input.value = $cordovaApi.scanOCR();
-        $sound.scanBegin();
-        $q.dialog({
-          title: 'OCR Scanner',
-          message: 'Please scan screen'
-        }).onOk(()=>{
-          $sound.scan();
+      input:''
+    }
+  },
+  emits: ['update:modelValue'],
+  methods:{
+    scanOCR(){
+        this.input = $cordovaApi.scan(this.type,this.label,this.defaultValue);
+        this.$emit('update:modelValue', this.input);
+        this.$q.dialog({
+          title: `${this.label} ${this.type} scanner`,
+          message: this.message
         })
       },
-    }
   }
 })
 </script>
