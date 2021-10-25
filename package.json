@@ -1,6 +1,6 @@
 {
   "name": "instore.tastamat.com",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Instore Delivery Management App",
   "productName": "Instore App",
   "author": "Tastamat Team",
@@ -8,7 +8,7 @@
   "scripts": {
     "test": "echo \"No test specified\" && exit 0",
     "boot": "quasar new boot notify",
-    "ver": "npm version minor",
+    "ver": "npm version minor --no-git-tag-version",
     "icon": "icongenie generate -i public/favlogo.png"
   },
   "dependencies": {
