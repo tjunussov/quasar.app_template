@@ -8,6 +8,7 @@
   "scripts": {
     "test": "echo \"No test specified\" && exit 0",
     "boot": "quasar new boot notify",
+    "ver": "npm version minor",
     "icon": "icongenie generate -i public/favlogo.png"
   },
   "dependencies": {
