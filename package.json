@@ -9,7 +9,7 @@
     "test": "echo \"No test specified\" && exit 0",
     "boot": "quasar new boot notify",
     "ver": "npm version minor --no-git-tag-version",
-    "icon": "icongenie generate -i public/favlogo.png"
+    "icon": "icongenie generate -m pwa --icon public/applogo.png -b public/splash.png --skip-trim"
   },
   "dependencies": {
     "@quasar/extras": "^1.0.0",
