@@ -14,12 +14,7 @@ const $cordovaApi = {
             var data = defaultValue||scanMockValue(label);
 
             console.debug('scan',data);
-            $sound.scanBegin();
-
             let seconds = 1
-
-            
-
             const timer = setInterval(() => {
                 seconds--
         
@@ -30,6 +25,7 @@ const $cordovaApi = {
                   clearInterval(timer)
                   setTimeout(dialog.hide,500);
                   resolve(data);
+                  $sound.scaned();
                 }
               }, 1000)
 

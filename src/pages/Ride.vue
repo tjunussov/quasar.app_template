@@ -5,13 +5,13 @@ layout
     .q-gutter-y-md.full-width
       r-card
         q-card-section
-          InputLabel(label="Tracking Number" v-model="trackingNumber" length="9")
+          InputScan(label="Tracking Number" v-model="trackingNumber" length="9")
         q-card-actions
           r-btn(@click="riderCheckIn" text-color="primary" outline :disabled="!trackingNumber") Check In
 
       r-card
         q-card-section
-          InputLabel(label="Label Number" type="barcode" v-model="labelNumber" length="4")
+          InputScan(label="Label Number" type="barcode" v-model="labelNumber" length="4")
         q-card-actions
           r-btn(@click="ride" :disabled="!labelNumber") Ride
           
@@ -19,7 +19,7 @@ layout
 
 <script>
 
-import InputLabel from 'components/InputLabel.vue'
+import InputScan from 'src/components/InputScan.vue'
 import layout from 'layouts/AppLayout.vue'
 import { defineComponent, ref, reactive } from 'vue'
 import { useQuasar } from 'quasar'
@@ -29,7 +29,7 @@ export default defineComponent({
   name: 'Ride',
   components: {
     layout,
-    InputLabel
+    InputScan
   },
   data () {
     return {

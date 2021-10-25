@@ -2,25 +2,24 @@
 layout
   template(v-slot:header) Pick
   template(v-slot:list)
-    q-separator
-    orderHistory(:hist="order")
+    orderHistory(:hist="order" @open="recover" @clear="order = null")
   q-page.q-pa-lg.flex.flex-center
     .q-gutter-y-md.full-width
 
       q-dialog(v-model="showPrintDialog" size="lg")
         q-card.full-width.q-pa-lg.Zno-border-radius.no-box-shadow
           print(ref="printRef" :data="order")
-          q-card-actions
-            r-btn(Zclick="printRef.print" text-color="primary" outline) Print
+          //- q-card-actions
+            r-btn(@click="printRef.print" text-color="primary" outline) Print
 
       r-card
         q-card-section
-          InputLabel(label="Tracking Number" v-model="trackingNumber" length="9")
+          InputScan(label="Tracking Number" v-model="trackingNumber" length="9")
         q-card-section.q-pa-none.q-pl-xs
           q-checkbox(v-model="useLabel" @click="labelNumber = ''") Use Label
         q-slide-transition
           q-card-section(v-show="useLabel")
-            InputLabel(label="Label Number" type="barcode" v-model="labelNumber" length="4")
+            InputScan(label="Label Number" type="barcode" v-model="labelNumber" length="4")
         q-card-actions
           r-btn(@click="pick" :disabled="!trackingNumber") Pick
 
@@ -32,7 +31,7 @@ layout
 import layout from 'layouts/AppLayout.vue'
 import orderHistory from 'components/OrderHistory.vue'
 
-import InputLabel from 'components/InputLabel.vue'
+import InputScan from 'src/components/InputScan.vue'
 import print from 'components/Print.vue'
 
 import { defineComponent, ref, reactive } from 'vue'
@@ -45,7 +44,7 @@ export default defineComponent({
     layout,
     print,
     orderHistory,
-    InputLabel
+    InputScan
   },
 
   data(){
@@ -66,6 +65,11 @@ export default defineComponent({
   },
     
   methods:{
+    recover(order){
+      this.labelNumber = order.labelNumber;
+      this.trackingNumber = order.trackingNumber;
+      this.order = null;
+    },
     clear(){
       this.labelNumber = null;
       this.trackingNumber = null;
