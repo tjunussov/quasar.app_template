@@ -41,16 +41,12 @@ export default defineComponent({
     riderCheckIn() {
       // trackingNumber
       $api.riderCheckIn(this.trackingNumber).then((resp)=>{
-        console.debug('$api.riderCheckIn',this.trackingNumber,'resp->',resp);
-        this.$q.notify({ type: 'info',color: 'primary',message: resp.result })
         this.clear();
       });
     },
     ride() {
       // labelNumber
       $api.ride(this.labelNumber).then((resp)=>{
-        console.debug('$api.ride',this.labelNumber,'resp->',resp);
-        this.$q.notify({ type: 'info',color: 'primary',message: resp.result })
         this.clear();
       });
     },

@@ -21,7 +21,6 @@ layout
 
 import InputLabel from 'components/InputLabel.vue'
 import { defineComponent, ref, reactive } from 'vue'
-import { useQuasar } from 'quasar'
 import { $api } from '../store/services/api'
 import layout from 'layouts/AppLayout.vue'
 
@@ -32,30 +31,22 @@ export default defineComponent({
     layout,
     InputLabel
   },
-
-  setup () {
-    const $q = useQuasar()
-    
-    const labelNumber = ref('')
-    const cell = ref('')
-    
-    function clear(){
-      cell.value = '';
-      labelNumber.value = '';
-      
-    }
-
+  data(){
     return {
-      labelNumber,
-      cell,
-      pack () {
-        // labelNumber,cell
-        $api.pack(labelNumber.value,cell.value).then((resp)=>{
-          console.debug('$api.pack',labelNumber.value,cell.value,'resp->',resp);
-          $q.notify({ type: 'info',color: 'primary',message: resp.result })
-          clear();
-        });
-      },
+      labelNumber:null,
+      cell:null,
+    }
+  },
+  methods:{
+    pack () {
+      // labelNumber,cell
+      $api.pack(this.labelNumber,this.cell).then((resp)=>{
+        this.clear();
+      });
+    },
+    clear(){
+      this.cell = '';
+      this.labelNumber = '';
     }
   },
 })

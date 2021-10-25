@@ -31,14 +31,17 @@ const instoreApi = {
     // }
     track(param) {
       console.log('location',this.location);
+      
       return $http.post(`/locations/${this.location}/orders`,param)
-        .then((resp)=>resultBuilder(resp))
+        .then((resp)=>resultBuilder(param,resp))
         .catch((error) => { handleError(error) })
     },
     pick(labelNumber,trackingNumber) {
-      return this.track({labelNumber,trackingNumber,status:'PICKING_COMPLETED'});
+      // if labelNumber undefined then use trackingNumber
+      return this.track({labelNumber:labelNumber||trackingNumber,trackingNumber,status:'PICKING_COMPLETED'});
     },
     pack(labelNumber,cellCode) {
+      // if cell code not specified then is is Packing Started
       if(cellCode)
         return this.track({labelNumber,cellCode,status:'PACKING_COMPLETED'});
       else 
@@ -130,7 +133,7 @@ const instoreApi = {
 const $api = process.env.CORDOVA === 'true' ? instoreApi : instoreApi
 
 
-function resultBuilder(resp){
+function resultBuilder(param,resp){
   $sound.track();
 
   resp = resp.data;
@@ -139,6 +142,10 @@ function resultBuilder(resp){
   (resp.cellCode?' Cell '+resp.cellCode:'') + 
   (resp.labelNumber?' Label '+resp.labelNumber:'') + 
   (resp.status?' Status '+resp.status:'');
+
+  console.debug('$api.track',param,resp.data);
+  Notify.create({ type: 'info',color: 'green',message: resp.result });
+
   return resp;
 }
 

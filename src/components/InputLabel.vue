@@ -50,12 +50,10 @@ export default defineComponent({
   emits: ['update:modelValue'],
   methods:{
     scanOCR(){
-        this.input = $cordovaApi.scan(this.type,this.label,this.defaultValue);
-        this.$emit('update:modelValue', this.input);
-        this.$q.dialog({
-          title: `${this.label} ${this.type} scanner`,
-          message: this.message
-        })
+        $cordovaApi.scan(this.type,this.label,this.defaultValue).then((data)=>{
+          this.input = data;
+          this.$emit('update:modelValue', this.input);
+        });
       },
   }
 })
