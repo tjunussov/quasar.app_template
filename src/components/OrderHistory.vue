@@ -1,6 +1,6 @@
 <template lang="pug">
 q-slide-transition(:duration="500")
-  q-list.text-primary(separator v-show="hist && hist.created")
+  q-list.text-primary(bordered separator v-show="hist && hist.created")
     q-slide-item(@right="onRight" right-color="red")
       template(v-slot:right)
         q-icon(name="clear")
