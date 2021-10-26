@@ -1,7 +1,7 @@
 <template lang="pug">
 q-card-section.q-pt-xs.row.no-wrap.items-center.text-grey
   .col.ellipsis {{data.trackingNumber}} 
-  .col-auto.text-caption {{data.created}}
+  .col-auto.text-caption {{$format(data.created,'DD.MM.YYYY  HH:mm:ss')}}
 q-card-section.q-pt-xs.text-center
   .barcode {{encode(data.labelNumber||data.trackingNumber)}}
   .text-h5.text-weight-bold \#{{data.labelNumber||data.trackingNumber}}
@@ -20,7 +20,7 @@ pre#printSection.hidden(v-if="data")
   | A300,480,0,4,1,1,N,"{{data.created}}"
   | A380,480,0,4,1,1,N,"_______________"
   | 
-  | A20,510,0,1,1,1,N,"© 2018 Powered by Toolpar, Tastamat Instore"
+  | A20,510,0,1,1,1,N,"© 2021 Powered by Toolpar, Tastamat Instore"
   | P1
   | N
 </template>

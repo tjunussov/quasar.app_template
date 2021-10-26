@@ -47,14 +47,24 @@ export default defineComponent({
       input:''
     }
   },
+  mounted(){
+    this.$bus.$on('keyboard:keydown:enter',this.keyboardBarcode);
+  },
+  beforeUnmount(){
+    this.$bus.$off('keyboard:keydown:enter',this.keyboardBarcode);
+  },
   emits: ['update:modelValue'],
   methods:{
     scanOCR(){
-        $cordovaApi.scan(this.type,this.label,this.defaultValue).then((data)=>{
-          this.input = data;
-          this.$emit('update:modelValue', this.input);
-        });
-      },
+      $cordovaApi.scan(this.type,this.label,this.defaultValue).then((data)=>{
+        this.input = data;
+        this.$emit('update:modelValue', this.input);
+      });
+    },
+    keyboardBarcode(data){
+      this.input = data;
+      this.$emit('update:modelValue', this.input);
+    }
   }
 })
 </script>

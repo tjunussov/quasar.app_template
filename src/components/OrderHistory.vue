@@ -9,7 +9,7 @@ q-slide-transition(:duration="500")
           q-btn(outline round dense color="white" text-color="primary" icon="local_shipping")
         q-item-section.q-pl-sm(v-if="hist && hist.created")
             q-item-label.text-h6.text-weight-bold Order \#{{hist.labelNumber}}
-            q-item-label.text-grey Created {{hist.created}}
+            q-item-label.text-grey Created {{$format(hist.created,'DD.MM.YYYY  HH:mm:ss')}}
         q-item-section(side top)
             r-btn(icon="more_vert")
 </template>
@@ -26,7 +26,7 @@ export default {
     onRight ({ reset }) {
       reset();
       this.$emit('clear');
-    }
+    },
   }
 }
 </script>

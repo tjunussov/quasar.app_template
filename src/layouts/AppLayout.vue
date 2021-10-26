@@ -1,5 +1,6 @@
 <template lang="pug">
 q-layout.bg-grey-4(view='lHr LpR lFr')
+  Keyboard
   q-header.bg-white.shadow-light(bordered height-hint="98")
     q-toolbar.q-pb-sm.text-primary
       r-btn(icon='menu' aria-label='Menu' @click='toggleLeftDrawer')
@@ -22,6 +23,8 @@ q-layout.bg-grey-4(view='lHr LpR lFr')
 <script>
 import Menu from 'components/Menu.vue'
 import Nav from 'components/Nav.vue'
+import Keyboard from 'components/utils/Keyboard.vue'
+
 
 import { defineComponent, ref, onMounted  } from 'vue'
 
@@ -30,7 +33,8 @@ export default defineComponent({
 
   components: {
     Menu,
-    Nav
+    Nav,
+    Keyboard
   },
 
 

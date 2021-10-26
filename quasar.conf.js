@@ -22,7 +22,8 @@ module.exports = configure(function (ctx) {
     boot: [
       'axios',
       'date',
-      'i18n',
+      // 'i18n',
+      'bus',
       'mock',
       'ui',
       'urlParams',
