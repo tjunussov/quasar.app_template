@@ -10,7 +10,7 @@ layout
           q-item-label(v-if="q.referenceNumber") {{q.trackingNumber}}
         q-item-section(side Ztop)
           q-item-label.text-h6.text-dark.text-weight-bold {{q.cellCode}}
-          //- q-item-label.text-grey Time {{q.created}}
+          q-item-label.text-grey Time {{$format(q.created,'HH:mm')}}
 
     q-list(v-if="!queue.length")
       q-item.q-pa-md
