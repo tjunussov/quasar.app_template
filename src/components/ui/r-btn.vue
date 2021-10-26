@@ -1,7 +1,7 @@
 
 <template lang="pug">
 q-btn(v-if="icon" flat round dense :icon="icon" :color="color")
-q-btn.text-weight-bold.full-width(v-else :color="color" unelevated no-caps  :text-color="textColor" :disabled="disabled")
+q-btn.text-weight-bold.full-width(v-else :color="color" unelevated no-caps  :text-color="textColor" :disabled="disabled"  v-on:click="onClick")
   slot
 //- q-btn.full-width(no-caps Zoutline unelevated :color="color" :text-color="textColor" :disabled="disabled" v-on:click="onClick") 
   
@@ -68,6 +68,7 @@ export default {
       default: false
     },
   },
+  emits:['click'],
   methods: {
     onClick () {
       this.$emit('click')
