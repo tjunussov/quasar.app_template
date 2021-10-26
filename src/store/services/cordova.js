@@ -1,4 +1,5 @@
 import { $sound } from '../../store/services/sound'
+import { $api } from '../../store/services/api'
 import { Dialog } from 'quasar'
 
 const $cordovaApi = {
@@ -12,6 +13,8 @@ const $cordovaApi = {
     scan(type,label,defaultValue){
         return new Promise((resolve, reject) => {
             var data = defaultValue||scanMockValue(label);
+
+            if(type=='ocr') $api.rawData('Raw Full Data 1031928301 is here ');
 
             console.debug('scan',data);
             let seconds = 1

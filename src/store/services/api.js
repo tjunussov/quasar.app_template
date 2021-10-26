@@ -21,6 +21,7 @@ function handleError(error) {
   
 const instoreApi = {
     location: 'demo',
+    raw: null,
 
     // POST /locations/{location}/orders:
     // {
@@ -29,8 +30,16 @@ const instoreApi = {
     //     "labelNumber": "1029830192",
     //     "status": "PICKING_COMPLETED"
     // }
+    rawData(raw){
+      this.raw = raw;
+    },
     track(param) {
       console.log('location',this.location);
+
+      // scanned raw data
+      if(this.raw){
+        param.data = this.raw;
+      }
       
       return $http.post(`/locations/${this.location}/orders`,param)
         .then((resp)=>resultBuilder(param,resp))
@@ -38,7 +47,9 @@ const instoreApi = {
     },
     pick(labelNumber,trackingNumber) {
       // if labelNumber undefined then use trackingNumber
-      return this.track({labelNumber:labelNumber||trackingNumber,trackingNumber,status:'PICKING_COMPLETED'});
+      return this.track({labelNumber:labelNumber||trackingNumber,trackingNumber,status:'PICKING_COMPLETED'}).finally(()=>{
+        this.raw = null;
+      });
     },
     pack(labelNumber,cellCode) {
       // if cell code not specified then is is Packing Started
@@ -50,8 +61,8 @@ const instoreApi = {
     ride(labelNumber) {
       return this.track({labelNumber,status:'RIDER_CHECKEDOUT'});
     },
-    riderCheckIn(trackingNumber) {
-      return this.track({trackingNumber,status:'RIDER_CHECKEDIN'});
+    riderCheckIn(trackingNumber,data) {
+      return this.track({trackingNumber,data,status:'RIDER_CHECKEDIN'});
     },
     
 
