@@ -1,7 +1,7 @@
 # App (app)
 Quasar App
 
-![Alt text](/screen/screen_app.png?raw=true "Screen")
+![Alt text](-/raw/main/public/screen/screen_app.png "Screen")
 
 ### 
 TODO

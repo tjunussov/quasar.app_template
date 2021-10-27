@@ -1,6 +1,6 @@
 {
   "name": "instore.tastamat.com",
-  "version": "0.6.1",
+  "version": "0.7.0",
   "description": "Instore Delivery Management App",
   "productName": "Instore App",
   "author": "Tastamat Team",
@@ -9,6 +9,7 @@
     "test": "echo \"No test specified\" && exit 0",
     "boot": "quasar new boot notify",
     "ver": "npm version minor --no-git-tag-version",
+    "ver patch": "npm version patch --no-git-tag-version",
     "icon": "icongenie generate -m pwa --icon public/applogo.png -b public/splash.png --skip-trim"
   },
   "dependencies": {
@@ -17,7 +18,6 @@
     "axios": "^0.21.1",
     "code-128-encoder": "^3.1.1",
     "core-js": "^3.6.5",
-    "mitt": "^3.0.0",
     "postcss": "^8.3.11",
     "quasar": "^2.0.0",
     "tailwindcss": "^2.2.17",

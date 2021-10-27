@@ -2,9 +2,9 @@
 q-layout.bg-grey-4(view='lHr LpR lFr')
   Keyboard
   q-header.bg-white.shadow-light(bordered height-hint="98")
-    q-toolbar.q-pb-sm.text-primary
+    q-toolbar.q-px-md.q-py-md.text-primary
       r-btn(icon='menu' aria-label='Menu' @click='toggleLeftDrawer')
-      q-toolbar-title.text-center.text-weight-bold.text-black
+      q-toolbar-title.text-h5.text-center.text-weight-bold.text-black
         slot(name="header") Header
       //- r-btn(icon='person')
       r-btn(icon='support_agent')

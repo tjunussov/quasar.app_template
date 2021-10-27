@@ -14,7 +14,7 @@ layout
 
       r-card
         q-card-section
-          InputScan(label="Tracking Number" v-model="trackingNumber" length="9")
+          InputScan(label="Tracking Number" type="ocr" extract="ocr_picker" v-model="trackingNumber" length="9" @data="multiData")
         q-card-section.q-pa-none.q-pl-xs
           q-checkbox(v-model="useLabel" @click="labelNumber = ''") Use Label
         q-slide-transition
@@ -54,6 +54,7 @@ export default defineComponent({
       trackingNumber:null,
       showPrintDialog:false,
       order:null,
+      raw:null,
     }
   },
   watch:{
@@ -75,9 +76,12 @@ export default defineComponent({
       this.trackingNumber = null;
       this.useLabel = false
     },
+    multiData(p){
+      this.raw = p.raw
+    },
     pick () {
       //labelNumber,trackingNumber
-      $api.pick(this.labelNumber,this.trackingNumber).then((resp)=>{
+      $api.pick(this.labelNumber,this.trackingNumber,this.raw).then((resp)=>{
         this.showPrintDialog = true;
         this.order = resp;
         this.clear();

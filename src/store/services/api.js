@@ -30,26 +30,16 @@ const instoreApi = {
     //     "labelNumber": "1029830192",
     //     "status": "PICKING_COMPLETED"
     // }
-    rawData(raw){
-      this.raw = raw;
-    },
     track(param) {
       console.log('location',this.location);
 
-      // scanned raw data
-      if(this.raw){
-        param.data = this.raw;
-      }
-      
       return $http.post(`/locations/${this.location}/orders`,param)
         .then((resp)=>resultBuilder(param,resp))
         .catch((error) => { handleError(error) })
     },
-    pick(labelNumber,trackingNumber) {
+    pick(labelNumber,trackingNumber,data) {
       // if labelNumber undefined then use trackingNumber
-      return this.track({labelNumber:labelNumber||trackingNumber,trackingNumber,status:'PICKING_COMPLETED'}).finally(()=>{
-        this.raw = null;
-      });
+      return this.track({labelNumber:labelNumber||trackingNumber,trackingNumber,status:'PICKING_COMPLETED',data})
     },
     pack(labelNumber,cellCode) {
       // if cell code not specified then is is Packing Started
@@ -154,7 +144,7 @@ function resultBuilder(param,resp){
   (resp.labelNumber?' Label '+resp.labelNumber:'') + 
   (resp.status?' Status '+resp.status:'');
 
-  console.debug('$api.track',param,resp.data);
+  console.debug('$api.track',param,resp);
   Notify.create({ type: 'info',color: 'green',message: resp.result });
 
   return resp;

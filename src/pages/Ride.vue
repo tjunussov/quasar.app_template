@@ -5,9 +5,10 @@ layout
     .q-gutter-y-md.full-width
       r-card
         q-card-section
-          InputScan(label="Tracking Number" v-model="trackingNumber" length="9")
+          InputScan(label="Tracking Number" type="ocr" extract="ocr_rider" v-model="trackingNumber" length="9" @data="multiData")
+          
         q-card-actions
-          r-btn(@click="riderCheckIn" text-color="primary" outline :disabled="!trackingNumber") Check In
+          r-btn(@click="riderCheckIn" text-color="primary" outline :disabled="!trackingNumber") Check In        
 
       r-card
         q-card-section
@@ -22,7 +23,6 @@ layout
 import InputScan from 'src/components/InputScan.vue'
 import layout from 'layouts/AppLayout.vue'
 import { defineComponent, ref, reactive } from 'vue'
-import { useQuasar } from 'quasar'
 import { $api } from '../store/services/api'
 
 export default defineComponent({
@@ -35,14 +35,18 @@ export default defineComponent({
     return {
       labelNumber:null,
       trackingNumber:null,
+      raw:null,
     }
   },
   methods:{
     riderCheckIn() {
       // trackingNumber
-      $api.riderCheckIn(this.trackingNumber).then((resp)=>{
+      $api.riderCheckIn(this.trackingNumber,this.raw).then((resp)=>{
         this.clear();
       });
+    },
+    multiData(p){
+      this.raw = p.raw
     },
     ride() {
       // labelNumber

@@ -24,16 +24,30 @@ $info      : #31CCEC;
 $warning   : #F2C037;
 
 
-$typography-font-family : '-apple-system','Roboto','Helvetica Neue', Helvetica, Arial,  sans-serif !default;
+$typography-font-family : '-apple-system','SF Pro Display','Roboto','Helvetica Neue', Helvetica, Arial,  sans-serif !default;
 
 
-$body-font-size   : 16px !default;
+$input-font-size  : 19px !default;
+$body-font-size   : 19px !default;
+
 $body-line-height : 1.5 !default;
 
 $generic-border-radius          : 16px !default;
 $min-line-height                : 1.12 !default;
 
-$button-border-radius           : 10px !default;
-$button-padding                 : 14px 20px !default;
+$button-border-radius           : 14px !default;
+$button-padding                 : 20px 20px !default;
 $button-dense-padding           : .285em !default;
 $button-font-size               : 18px !default;
+
+
+.q-field__label {
+  font-size: inherit;
+}
+
+body {
+  letter-spacing: -0.02em;
+}
+.text-h5, .text-h6 {
+  letter-spacing: -0.01em !important;
+}
