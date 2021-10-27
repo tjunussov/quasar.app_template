@@ -1,6 +1,6 @@
 // import ion from 'ion-sound'
 
-const audioURL = '/audio/supermariobros/';
+const audioURL = 'audio/supermariobros/';
 
 var queue = new Audio();
 queue.src = audioURL+"bindstart.mp3";

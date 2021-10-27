@@ -10,10 +10,13 @@ TODO
 + localStorage or Idb remember settings
 + print as dialog withtimeout
 
-- printer EPL
-- notify to error toster
++ printer EPL
++ dashboard time bug format
++ prefetch barcode font
++ OrderHistory recover and delete
 
-- dashboard time bug format
-- prefetch barcode font
-- OrderHistory recover and delete
+- notify to error toster
 - printer fullscreen dialgo
+- raw data pass, two data value via event bus or complex object
+
+- polish ui paddings and sizes
