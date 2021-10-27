@@ -76,6 +76,7 @@ if(!Platform.is.cordova) {
             text:cfg.mock.defaultValue||scanMockValue(cfg.mock.label),
             raw:'989079909 351 PM 583071708 OD 7 Days Chocolate Croissant 55 Gm AED 1.90 Almarai Milk Premium Mango 250 M o/n AED 2.65 Almarai Milk Premium Strawberry 250 MI 0/2 AED 2.60'
           };
+          cfg.type = 'ocr'
           mockCameraUI(result,error,data,cfg);
         }
       },
@@ -92,14 +93,14 @@ if(!Platform.is.cordova) {
 
 function mockCameraUI(result,error,data,cfg){
   let seconds = 1
-  console.debug('mockCamera',data);
+  // console.debug('mockCamera',data);
 
   const timer = setInterval(() => {
       seconds--
 
       if (seconds == 0) {
         dialog.update({
-          message: `Scanned code ${data && data.text?data.text:data} ${data.raw?'raw '+data.raw:''} `
+          message: `Scanned code ${data && data.text?data.text:data} <code>${data.raw?''+data.raw+'</code>':''} `
         });
         clearInterval(timer)
         setTimeout(dialog.hide,500);
@@ -109,8 +110,9 @@ function mockCameraUI(result,error,data,cfg){
     }, 1000)
 
   const dialog = Dialog.create({
-      title: `${cfg.mock.label} ${cfg.ocrType||'barcode'} scanner`,
-      message: 'Scanning ...'
+      title: `${cfg.mock.label} ${cfg.type||'barcode'} scanner`,
+      message: 'Scanning ...',
+      html: true
   }).onOk(() => {
     clearInterval(timer)
     result(data);

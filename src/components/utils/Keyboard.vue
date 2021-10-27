@@ -47,8 +47,6 @@ export default {
       if (event.keyCode == 13){ // || this.keyText.length == 13 || this.keyText.length == 14 
 
         var firstLetter = this.keyText.substr(0,1);
-       
-        firstLetter = this.keyText.substr(0,1);
 
         if (this.keyText.length == 13) { // ENTER or BARCODE Length
           console.debug('emitting 13 len key text',this.keyText);

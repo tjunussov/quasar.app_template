@@ -1,5 +1,5 @@
 <template lang="pug">
-q-input(:label="label" Zsize="lg" Zoutlined  :modelValue="input" update:modelValue="input = $event" Zrules="[ val => val.length >= LENGTH || 'Please use minimum '+LENGTH+' characters' ]" )
+q-input(:label="label" Zsize="lg" Zoutlined :modelValue="input" @update:modelValue="input = $event; $emit('update:modelValue',input)" Zrules="[ val => val.length >= LENGTH || 'Please use minimum '+LENGTH+' characters' ]" )
   template(v-slot:append)
     r-btn(icon="camera_alt" color="grey" @click="type=='ocr'?scanOCR():scanBarcode()")
 </template>
@@ -34,6 +34,10 @@ export default defineComponent({
       type: String,
       default: 'ocr'
     },
+    prefix:{
+      type: String,
+      default: ''
+    },
     defaultValue:String,
     disabled: {
       type: Boolean,
@@ -51,10 +55,10 @@ export default defineComponent({
     }
   },
   mounted(){
-    this.$bus.$on('keyboard:keydown:enter',this.keyboardBarcode);
+    if(this.type == 'barcode') this.$bus.$on('keyboard:keydown:enter'+(this.prefix?':'+this.prefix:''),this.keyboardBarcode);
   },
   beforeUnmount(){
-    this.$bus.$off('keyboard:keydown:enter',this.keyboardBarcode);
+    if(this.type == 'barcode') this.$bus.$off('keyboard:keydown:enter'+(this.prefix?':'+this.prefix:''),this.keyboardBarcode);
   },
   emits: ['update:modelValue','data'],
   methods:{

@@ -12,7 +12,7 @@ layout
 
       r-card
         q-card-section
-          InputScan(label="Label Number" type="barcode" v-model="labelNumber" length="4")
+          InputScan(label="Label Number" type="barcode" prefix="l" v-model="labelNumber" length="4")
         q-card-actions
           r-btn(@click="ride" :disabled="!labelNumber") Ride
           

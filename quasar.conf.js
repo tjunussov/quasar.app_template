@@ -99,7 +99,7 @@ module.exports = configure(function (ctx) {
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-devServer
     devServer: {
       https: false,
-      host:'localhost',
+      host:'0.0.0.0',
       port: 8080,
       headers: {
         'X-Server-Name': 'DEV'

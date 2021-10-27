@@ -16,10 +16,10 @@ layout
         q-card-section
           InputScan(label="Tracking Number" type="ocr" extract="ocr_picker" v-model="trackingNumber" length="9" @data="multiData")
         q-card-section.q-pa-none.q-pl-xs
-          q-checkbox(v-model="useLabel" @click="labelNumber = ''") Use Label
+          q-checkbox(@update:modelValue="useLabel = $event; labelNumber = null" :modelValue="useLabel || labelNumber!=null") Use Label
         q-slide-transition
-          q-card-section(v-show="useLabel")
-            InputScan(label="Label Number" type="barcode" v-model="labelNumber" length="4")
+          q-card-section(v-show="labelNumber || useLabel")
+            InputScan(label="Label Number" type="barcode" v-model="labelNumber" prefix="l" length="4")
         q-card-actions
           r-btn(@click="pick" :disabled="!trackingNumber") Pick
 

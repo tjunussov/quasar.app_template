@@ -20,3 +20,5 @@ TODO
 - raw data pass, two data value via event bus or complex object
 
 - polish ui paddings and sizes
+
+#netsh interface portproxy add v4tov4 listenaddress=192.168.88.33 listenport=8080 connectaddress=172.27.32.1 connectport=8080

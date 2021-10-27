@@ -5,14 +5,14 @@ layout
     .q-gutter-y-md.full-width
       r-card
         q-card-section
-          InputScan(label="Label Number" v-model="labelNumber" type="barcode" length="2")
+          InputScan(label="Label Number" v-model="labelNumber" type="barcode" prefix="l" length="2")
         q-card-actions
           r-btn(@click="pack" text-color="primary" outline :disabled="!labelNumber") Info
 
       q-slide-transition
         r-card(v-show="labelNumber")
           q-card-section
-            InputScan(label="Cell Number" v-model="cell" length="11" type="barcode" defaultValue="CELL-DEV-01")
+            InputScan(label="Cell Number" v-model="cell" length="11" type="barcode" prefix="c" defaultValue="CELL-DEV-01")
           q-card-actions
             r-btn(@click="pack" :disabled="!cell || !labelNumber") Pack
 </template>
