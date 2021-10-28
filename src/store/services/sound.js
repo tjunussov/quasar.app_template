@@ -12,7 +12,11 @@ var  scaned = new Audio();
 scaned.src = audioURL+"push3.mp3";
 
 var  track = new Audio();
-track.src = audioURL+"search1.mp3";
+track.src = audioURL+"push1.mp3";
+
+var  print = new Audio();
+print.src = audioURL+"push1.mp3";
+
 
 const $sound = {
     queue() {
@@ -26,6 +30,9 @@ const $sound = {
     },
     track(){
       track.play();
+    },
+    print(){
+      print.play();
     },
 }
 export { $sound }

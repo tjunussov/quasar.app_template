@@ -1,20 +1,5 @@
-import mitt from 'mitt'
 import { boot } from 'quasar/wrappers'
 import emitter from 'tiny-emitter/instance'
-
-// const emitter = mitt();
-
-// export default boot(({ app }) => {
-//   app.config.globalProperties.$bus ={
-//     get: function () {
-//       return emitter
-//     }
-//   }
-// })
-
-
-
-
 
 export default boot(({ app }) => {
   app.config.globalProperties.$bus = {

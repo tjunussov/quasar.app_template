@@ -24,6 +24,8 @@ export default {
   methods:{
     documentKeydown(event){
 
+      // console.log('keycode',event.key,event.keyCode);
+
       if(event.target.className.indexOf('nokeyboard') >= 0) return;
 
       if( event.keyCode >= 96 && event.keyCode <=105 ){ // only numpad and top numbers
@@ -31,21 +33,23 @@ export default {
       } else if( event.keyCode >= 65 && event.keyCode <=90 ){ // only alphanumerics
         this.keyText += String.fromCharCode(event.keyCode+(event.shiftKey?0:32));
       } else if( event.keyCode >= 48 && event.keyCode <=57 ) { // numbers
-        this.keyText += String.fromCharCode(event.keyCode);
+
+        if( event.shiftKey && (event.keyCode == 50 || event.keyCode == 51 )) { // "@#"
+          this.keyText += event.key;
+        } else {
+          this.keyText += String.fromCharCode(event.keyCode);
+        }
       } else if( event.keyCode == 110 || event.keyCode == 190 ) { // "."
         this.keyText += ".";
-      }
+      }  
+
+      // this.keyText += event.key;
 
       if(event.keyCode == 8 ){ // ????
         this.keyText = this.keyText.slice(0,-1)
       }
 
-
-      // .console.debug('documentKeydown',this.keyText, event.keyCode, String.fromCharCode(event.keyCode));
-
-
       if (event.keyCode == 13){ // || this.keyText.length == 13 || this.keyText.length == 14 
-
         var firstLetter = this.keyText.substr(0,1);
 
         if (this.keyText.length == 13) { // ENTER or BARCODE Length

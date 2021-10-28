@@ -1,4 +1,4 @@
-(self["webpackChunkinstore_tastamat_com"]=self["webpackChunkinstore_tastamat_com"]||[]).push([[736],{7518:e=>{e.exports=function(e,t,n){const o=void 0!==e.__vccOpts?e.__vccOpts:e,r=o[t];if(void 0===r)o[t]=n;else for(const i in n)void 0===r[i]&&(r[i]=n[i])}},9501:(e,t,n)=>{var o;(function(){"use strict";
+(self["webpackChunkinstore_tastamat_com"]=self["webpackChunkinstore_tastamat_com"]||[]).push([[736],{7518:e=>{e.exports=function(e,t,n){const o=void 0!==e.__vccOpts?e.__vccOpts:e,r=o[t];if(void 0===r)o[t]=n;else for(const i in n)void 0===r[i]&&(r[i]=n[i])}},488:(e,t,n)=>{"use strict";n.d(t,{Al3:()=>o});const o="M4,6H6V18H4V6M7,6H8V18H7V6M9,6H12V18H9V6M13,6H14V18H13V6M16,6H18V18H16V6M19,6H20V18H19V6M2,4V8H0V4A2,2 0 0,1 2,2H6V4H2M22,2A2,2 0 0,1 24,4V8H22V4H18V2H22M2,16V20H6V22H2A2,2 0 0,1 0,20V16H2M22,20V16H24V20A2,2 0 0,1 22,22H18V20H22Z"},9501:(e,t,n)=>{var o;(function(){"use strict";
 /**
    * @preserve FastClick: polyfill to remove click delays on browsers with touch UIs.
    *

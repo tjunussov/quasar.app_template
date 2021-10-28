@@ -9,15 +9,13 @@
           //- q-item-label 
             
           q-item-label
-            q-chip.q-ma-none(icon-right="keyboard_arrow_down" Zdense text-color="white" color="grey-7") {{menu.value.name}}
+            q-chip.q-ma-none(icon-right="keyboard_arrow_down" Zdense text-color="white" color="grey-7") {{menu[selected]}}
                 q-menu(square )
                   q-list(separator )
-                    q-item(clickable v-close-popup :active="menu.value.name=='Dubai'" @click="select({name:'Dubai',code:'demo'})")
+                    q-item(clickable v-close-popup v-for="(n,k ) in menu" :active="selected==n" @click="select(k)")
                       q-item-section
-                        q-item-label Dubai
-                    q-item(clickable v-close-popup :active="menu.value.name=='AbuDhabi'" @click="select({name:'AbuDhabi',code:'DEV'})")
-                      q-item-section
-                        q-item-label AbuDhabi
+                        q-item-label {{n}}
+                   
           //- q-item-label
             q-badge PICKER
       //- q-separator(dark)
@@ -67,19 +65,21 @@ import { $api } from '../store/services/api'
 export default defineComponent({
   name: 'Menu',
 
-  setup () {
-
-    const menu = reactive({value:{name:'Dubai', code:'demo'}})
-
+  data(){
     return {
-      menu,
-      select(v) {
-        $api.location = v.code;
-        menu.value = v;
-      }
+      menu:{
+        'DEV':'AbuDhabi',
+        'demo':'Dubai',
+      },
+      selected : localStorage.getItem('location') != null ? localStorage.getItem('location') : 'demo'
+    }
+  },
+  methods:{
+    select(k) {
+      this.selected = $api.location = k;
+      localStorage.setItem('location',k)
     }
   }
-        
 })
 </script>
 

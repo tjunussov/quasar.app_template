@@ -1,7 +1,7 @@
 <template lang="pug">
-q-input(:label="label" Zsize="lg" Zoutlined :modelValue="input" @update:modelValue="input = $event; $emit('update:modelValue',input)" Zrules="[ val => val.length >= LENGTH || 'Please use minimum '+LENGTH+' characters' ]" )
+q-input(:label="label" Zsize="lg" ref="input" Zoutlined :modelValue="input" @update:modelValue="input = $event; $emit('update:modelValue',input)" Zrules="[ val => val.length >= LENGTH || 'Please use minimum '+LENGTH+' characters' ]" )
   template(v-slot:append)
-    r-btn(icon="camera_alt" color="grey" @click="type=='ocr'?scanOCR():scanBarcode()")
+    r-btn(:icon="type=='barcode'?mdiBarcodeScan:'camera_alt'" ref="btn" color="grey" @click="type=='ocr'?scanOCR($event):scanBarcode($event)")
 </template>
 
 <script>
@@ -10,7 +10,13 @@ import { defineComponent, ref, reactive } from 'vue'
 import $cordovaApi from '../store/services/cordova'
 import { $sound } from '../store/services/sound'
 
+import { mdiBarcodeScan } from '@quasar/extras/mdi-v6'
+
+
 export default defineComponent({
+  created () {
+    this.mdiBarcodeScan = mdiBarcodeScan
+  },
   name: 'InputLabel',
   props: {
     label: {
@@ -51,7 +57,8 @@ export default defineComponent({
   },
   data(){
     return {
-      input:''
+      input:'',
+      mdiBarcodeScan:null,
     }
   },
   mounted(){
@@ -60,7 +67,7 @@ export default defineComponent({
   beforeUnmount(){
     if(this.type == 'barcode') this.$bus.$off('keyboard:keydown:enter'+(this.prefix?':'+this.prefix:''),this.keyboardBarcode);
   },
-  emits: ['update:modelValue','data'],
+  emits: ['update:modelValue','data','blur'],
   methods:{
     scanOCR(){
       $cordovaApi.scanOCR(this.extract,{label:this.label,defaultValue:this.defaultValue}).then((data)=>{
@@ -71,18 +78,30 @@ export default defineComponent({
         if(data && data.raw) this.$emit('data',data);
 
         this.$emit('update:modelValue', this.input);
+        this.defocus();
       });
     },
-    scanBarcode(){
+    scanBarcode($event){
       $cordovaApi.scanBarcode({label:this.label,defaultValue:this.defaultValue}).then((data)=>{
         console.debug('$cordovaApi.scanBarcode',data);
         this.input = data;
         this.$emit('update:modelValue', this.input);
+        this.defocus($event);
       });
     },
     keyboardBarcode(data){
       this.input = data;
       this.$emit('update:modelValue', this.input);
+      this.defocus();
+    },
+    defocus($event){
+      // console.debug('defocus',document.activeElement);
+
+      if (document.activeElement instanceof HTMLElement) {
+        document.activeElement.blur();
+      }
+      window.focus();
+      document.body.focus();
     }
   }
 })

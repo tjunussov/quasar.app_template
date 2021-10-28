@@ -9,8 +9,8 @@ layout
       q-dialog(v-model="showPrintDialog" size="lg")
         q-card.full-width.q-pa-lg.Zno-border-radius.no-box-shadow
           print(ref="printRef" :data="order")
-          //- q-card-actions
-            r-btn(@click="printRef.print" text-color="primary" outline) Print
+          q-card-actions
+            r-btn(@click="print" text-color="primary" outline) Print
 
       r-card
         q-card-section
@@ -19,7 +19,7 @@ layout
           q-checkbox(@update:modelValue="useLabel = $event; labelNumber = null" :modelValue="useLabel || labelNumber!=null") Use Label
         q-slide-transition
           q-card-section(v-show="labelNumber || useLabel")
-            InputScan(label="Label Number" type="barcode" v-model="labelNumber" prefix="l" length="4")
+            InputScan(label="Label Number" type="barcode" v-model="labelNumber" prefix="L" length="4")
         q-card-actions
           r-btn(@click="pick" :disabled="!trackingNumber") Pick
 
@@ -61,7 +61,7 @@ export default defineComponent({
     showPrintDialog(v){
       if(v) window.setTimeout(()=>{
         this.showPrintDialog = false
-      },4000)
+      },20000)
     }
   },
     
@@ -81,12 +81,17 @@ export default defineComponent({
     },
     pick () {
       //labelNumber,trackingNumber
-      $api.pick(this.labelNumber,this.trackingNumber,this.raw).then((resp)=>{
+      return $api.pick(this.labelNumber,this.trackingNumber,this.raw).then((resp)=>{
         this.showPrintDialog = true;
         this.order = resp;
         this.clear();
       });
     },
+    print(){
+      this.$refs.printRef.print().then(()=>{
+        this.showPrintDialog = false;
+      })
+    }
   }
 })
 </script>

@@ -80,7 +80,10 @@ const $mock = new MockAdapter($http,{delayResponse:500})
   order["locationCode"] = "demo",
   order["cellCode"] = data.cellCode,
   order["trackingNumber"] = data.trackingNumber,
-  order["labelNumber"] = data.labelNumber,
+  order["labelNumber"] = data.labelNumber;
+
+  if(data.trackingNumber) localStorage.setItem("Tracking Number",data.trackingNumber);
+  if(data.labelNumber) localStorage.setItem("Label Number",data.labelNumber);
 
   console.debug('Mock /locations/demo/orders',data);
   return [200,order];

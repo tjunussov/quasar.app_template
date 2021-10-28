@@ -31,7 +31,7 @@ const instoreApi = {
     //     "status": "PICKING_COMPLETED"
     // }
     track(param) {
-      console.log('location',this.location);
+      console.debug('location',this.location);
 
       return $http.post(`/locations/${this.location}/orders`,param)
         .then((resp)=>resultBuilder(param,resp))
@@ -139,7 +139,9 @@ function resultBuilder(param,resp){
 
   resp = resp.data;
   resp.result = "Order" + 
+  (resp.locationCode?' Location '+resp.locationCode:'') + 
   (resp.trackingNumber?' Tracking '+resp.trackingNumber:'') + 
+  
   (resp.cellCode?' Cell '+resp.cellCode:'') + 
   (resp.labelNumber?' Label '+resp.labelNumber:'') + 
   (resp.status?' Status '+resp.status:'');

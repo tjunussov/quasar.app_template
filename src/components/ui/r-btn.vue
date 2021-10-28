@@ -1,7 +1,7 @@
 
 <template lang="pug">
-q-btn(v-if="icon" flat round dense :icon="icon" :color="color")
-q-btn.text-weight-bold.full-width(v-else size="xl" :color="color" unelevated no-caps  :outline="disabled" :text-color="disabled?'text-grey':textColor" :disabled="disabled"  v-on:click.stop="onClick")
+q-btn(v-if="icon" ref="btn" flat round dense :icon="icon" :color="color")
+q-btn.text-weight-bold.full-width(v-else ref="btn" size="xl" :color="color" unelevated no-caps  :outline="disabled" :text-color="disabled?'text-grey':textColor" :disabled="disabled"  v-on:click.stop="onClick")
   slot
 //- q-btn.full-width(no-caps Zoutline unelevated :color="color" :text-color="textColor" :disabled="disabled" v-on:click="onClick") 
   

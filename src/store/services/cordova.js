@@ -4,15 +4,13 @@ import { Dialog, Platform  } from 'quasar'
 const $cordovaApi = {
    
     printLabel(data) {
-      $sound.scanBegin();
+      $sound.print();
       return new Promise((resolve, reject) => {
         window.cordova.plugins.printer.print(resolve,
           (error) => {
             reject("Printing failed: " + error);
           },
-          { 
-            format:'EPL'
-          })
+          data)
       })
     },
 
@@ -81,9 +79,12 @@ if(!Platform.is.cordova) {
         }
       },
       printer: {
-        print: function(data){
+        print: function(result,error,data){
           console.debug('mock cordova print',data);
-          window.setTimeout(window.print,500);
+          window.setTimeout(()=>{
+            window.print();
+            result();
+          },500);
         }
       }
     }
@@ -103,7 +104,7 @@ function mockCameraUI(result,error,data,cfg){
           message: `Scanned code ${data && data.text?data.text:data} <code>${data.raw?''+data.raw+'</code>':''} `
         });
         clearInterval(timer)
-        setTimeout(dialog.hide,500);
+        setTimeout(dialog.hide,1000);
         result(data);
         $sound.scaned();
       }
