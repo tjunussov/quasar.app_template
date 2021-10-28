@@ -11,11 +11,18 @@ import rCard from '../components/ui/r-card.vue'
 // import rItem from '../components/ui/r-list-item.vue'
 // import rToggle from '../components/ui/r-toggle.vue'
 
+import { h } from 'vue'
+
+const EmptySlot = {
+  functional: true,
+  render: () => h('template')
+}
 
 
 export default boot(async ({ app }) => {
   app.component('r-btn', rBtn)
   app.component('r-card', rCard)
+  app.component('r-empty', EmptySlot)
   
 
   // Vue.component('r-btncard', rBtnCard)
@@ -29,12 +36,7 @@ export default boot(async ({ app }) => {
 
 // Vue.component('r-toggle', rToggle)
 
-// const EmptySlot = {
-//   functional: true,
-//   render: (h, { data }) => h('template', data, '')
-// }
 
-// Vue.component('r-empty', EmptySlot)
 
 
 })

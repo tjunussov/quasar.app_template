@@ -12,7 +12,7 @@ q-layout.bg-grey-4(view='lHr LpR lFr')
     q-ajax-bar(ref="bar" color="primary" size="4px")
   q-drawer.bg-primary(v-model='leftDrawerOpen' :width="250" show-if-above bordered  side="left" :breakpoint='1400' dark)
     Menu
-  q-page-container.max-width
+  q-page-container
     slot
   slot(name="footer")
     q-footer.bg-white.shadow-light(  Zbordered :class="{'ios-footer q-pb-md':$q.platform.is.ios}")

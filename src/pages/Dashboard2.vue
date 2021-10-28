@@ -3,24 +3,27 @@ layout
   template(v-slot:header) Dashboard
   template(v-slot:footer): r-empty
   q-page.q-pa-md.q-gutter-xs
-    transition-group(appear enter-active-class="animated slideInDown" leave-active-class="animated fadeOut")
-      q-list(v-if="!queue.length")
-        q-item.q-pa-md
+    q-list.bg-white(bordered separator)
+      transition-group(appear enter-active-class="animated slideInDown" leave-active-class="animated fadeOut")
+        q-item.q-pa-md(v-for="q in queue" :key="q.trackingNumber")
           q-item-section
-            q-item-label.text-h6.text-weight-bold.text-center No rider is waiting ... 
-      
-      q-btn.ticket.text-left(unelevated Zoutline v-for="q in queue" :key="q.trackingNumber" color="white" text-color="black")
-        q-item-section
-          q-item-label.text-h6
-            q-chip.text-h6.q-ml-none(color="primary" text-color="grey" v-if="q.referenceNumber") \#{{q.referenceNumber}}
-            span.text-weight-bold {{q.trackingNumber}}
-          q-item-label.text-grey.text-small
-            q-icon(name="schedule") 
-            | {{$format(q.created,'HH:mm')}}
-        q-item-section(side Ztop)
-          q-item-label.text-h6.text-dark.text-weight-bold 
-            q-btn.Zno-border-radius.q-px-md(:class="{'blink':!q.cellCode}" outline dense size="lg") {{q.cellCode?q.cellCode:'WAIT...'}}
+            q-item-label.text-h6
+              q-chip.text-h6.q-ml-none(v-if="q.referenceNumber") \#{{q.referenceNumber}}
+              span.text-weight-bold {{q.trackingNumber}}
+              
+            q-item-label.text-grey.text-small
+              q-icon(name="schedule") 
+              | {{$format(q.created,'HH:mm')}}
+          q-item-section(side Ztop)
+            q-item-label.text-h6.text-dark.text-weight-bold 
+              q-btn.Zno-border-radius.q-px-md(outline dense size="lg") {{q.cellCode?q.cellCode:'WAIT...'}}
             
+
+    q-list(v-if="!queue.length")
+      q-item.q-pa-md
+        q-item-section
+          q-item-label.text-h6.text-weight-bold.text-center No rider is waiting ... 
+
     
 </template>
 
@@ -93,18 +96,4 @@ function isChanged(a,b){
 
 <style lang="sass" scoped>
 
-.ticket 
-  min-width: 286px
-
-.blink
-  animation: blink-animation 1s steps(5, start) infinite
-  -webkit-animation: blink-animation 1s steps(5, start) infinite
-
-@keyframes blink-animation
-  to
-    visibility: hidden
-
-@-webkit-keyframes blink-animation
-  to
-    visibility: hidden
 </style>

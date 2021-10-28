@@ -144,7 +144,8 @@ function resultBuilder(param,resp){
   
   (resp.cellCode?' Cell '+resp.cellCode:'') + 
   (resp.labelNumber?' Label '+resp.labelNumber:'') + 
-  (resp.status?' Status '+resp.status:'');
+  (resp.status?' Status '+resp.status:'') +
+  (resp.waiting?' WAITING ':'');
 
   console.debug('$api.track',param,resp);
   Notify.create({ type: 'info',color: 'green',message: resp.result });

@@ -1,5 +1,5 @@
 <template lang="pug">
-layout
+layout.max-width
   template(v-slot:header) Pack
   q-page.q-pa-lg.flex.flex-center
     .q-gutter-y-md.full-width

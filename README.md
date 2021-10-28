@@ -21,4 +21,8 @@ TODO
 
 - polish ui paddings and sizes
 
+
+- dashboard left align
+- bug: api location init
+
 #netsh interface portproxy add v4tov4 listenaddress=192.168.88.33 listenport=8080 connectaddress=172.27.32.1 connectport=8080

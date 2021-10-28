@@ -2,8 +2,11 @@
 
 const audioURL = 'audio/supermariobros/';
 
-var queue = new Audio();
-queue.src = audioURL+"bindstart.mp3";
+var enqueue = new Audio();
+enqueue.src = audioURL+"bindstart.mp3";
+
+var dequeue = new Audio();
+dequeue.src = audioURL+"bindend.mp3";
 
 var scan = new Audio();
 scan.src = audioURL+"push2.mp3";
@@ -19,8 +22,11 @@ print.src = audioURL+"push1.mp3";
 
 
 const $sound = {
-    queue() {
-      queue.play();
+    enqueue() {
+      enqueue.play();
+    },
+    dequeue() {
+      dequeue.play();
     },
     scan() {
       scan.play();

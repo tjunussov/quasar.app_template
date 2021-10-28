@@ -1,5 +1,5 @@
 <template lang="pug">
-layout
+layout.max-width
   template(v-slot:header) Pick
   template(v-slot:list)
     orderHistory(:hist="order" @open="recover" @clear="order = null")

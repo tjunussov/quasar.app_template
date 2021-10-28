@@ -2,6 +2,7 @@ import MockAdapter from 'axios-mock-adapter'
 import { $http } from 'boot/axios'
 import { boot } from 'quasar/wrappers'
 
+var orderWaitings = [];
 var order = {
       "id": 1,
       "created": "2021-10-24T21:15:22.659384+06:00",
@@ -55,18 +56,6 @@ var order = {
               "date": "2021-10-24T21:18:31.938992+06:00",
               "success": true
           },
-          {
-              "index": 8,
-              "status": "COMPLETED",
-              "date": "2021-10-24T21:19:01.646695+06:00",
-              "success": true
-          },
-          {
-              "index": 9,
-              "status": "COMPLETED",
-              "date": "2021-10-24T21:21:20.635516+06:00",
-              "success": true
-          }
       ]
   };
 /* /\/users\/\d+/ */
@@ -77,15 +66,19 @@ const $mock = new MockAdapter($http,{delayResponse:500})
 
   order["created"] = new Date(),
   order["modified"] = new Date(),
-  order["locationCode"] = "demo",
-  order["cellCode"] = data.cellCode,
-  order["trackingNumber"] = data.trackingNumber,
-  order["labelNumber"] = data.labelNumber;
+  order["locationCode"] = "demo";
 
-  if(data.trackingNumber) localStorage.setItem("Tracking Number",data.trackingNumber);
-  if(data.labelNumber) localStorage.setItem("Label Number",data.labelNumber);
+  if(data.status == ''){
+    order['status'] = 'PACKING_COMPLETED'
+  }
 
-  console.debug('Mock /locations/demo/orders',data);
+  order.waiting = (Math.random()*10>5)
+
+  if(data.cellCode) { order["cellCode"] = data.cellCode }
+  if(data.trackingNumber) { order["trackingNumber"] = data.trackingNumber; localStorage.setItem("Tracking Number",data.trackingNumber); }
+  if(data.labelNumber) { order["labelNumber"] = data.labelNumber; localStorage.setItem("Label Number",data.labelNumber); }
+
+  console.debug('Mock /locations/demo/orders',order);
   return [200,order];
 })
 // .onAny(/\/locations\/demo\/orders\/\d+\/picking-completed\?trackingNumber=\d+/).reply((cfg)=>{
@@ -106,33 +99,15 @@ const $mock = new MockAdapter($http,{delayResponse:500})
 //   return [200,{"result": "Checking Out Done"}];
 // })
 .onAny('/locations/demo/orders-waiting').reply((cfg)=>{
-  return [200,[
-    {
-      "id": 1,
-      "created": "2021-10-24T21:15:22.659384+06:00",
-      "modified": "2021-10-24T21:21:20.64168+06:00",
-      "locationCode": "DEMO",
-      "cellCode": "CELL-DEV-01",
-      "trackingNumber": "1230982192",
-      "labelNumber": "1230982192",
-      "referenceNumber":"3243",
-      "status": "COMPLETED",
-      "waiting": true,
-      "history": null
-    },{
-      "id": 1,
-      "created": "2021-10-24T21:15:22.659384+06:00",
-      "modified": "2021-10-24T21:21:20.64168+06:00",
-      "locationCode": "DEMO",
-      "cellCode": "CELL-DEV-03",
-      "trackingNumber": "1230982182",
-      "labelNumber": "1230982102",
-      "referenceNumber":"1231",
-      "status": "COMPLETED",
-      "waiting": true,
-      "history": null
-    }
-  ]];
+  var o = Object.assign({},order);
+  o.waiting = (Math.random()*10>8);
+  o.trackingNumber = Math.ceil(Math.random()*1000000000);
+  if(o.waiting) o.cellCode = null
+  if(Math.random()*10>3) 
+    orderWaitings.unshift(o);
+  else if(Math.random()*10>5) 
+    orderWaitings.splice(1,1);
+  return [200,orderWaitings];
 }).onAny().passThrough();
 
 // .onAny().reply((cfg)=>{

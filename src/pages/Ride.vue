@@ -1,8 +1,9 @@
 <template lang="pug">
-layout
+layout.max-width  
   template(v-slot:header) Ride
   q-page.q-pa-lg.flex.flex-center
     .q-gutter-y-md.full-width
+
       r-card
         q-card-section
           InputScan(label="Tracking Number" type="ocr" extract="ocr_rider" v-model="trackingNumber" length="9" @data="multiData")
@@ -24,6 +25,7 @@ import InputScan from 'src/components/InputScan.vue'
 import layout from 'layouts/AppLayout.vue'
 import { defineComponent, ref, reactive } from 'vue'
 import { $api } from '../store/services/api'
+import { Dialog  } from 'quasar'
 
 export default defineComponent({
   name: 'Ride',
@@ -43,6 +45,15 @@ export default defineComponent({
       // trackingNumber
       $api.riderCheckIn(this.trackingNumber,this.raw).then((resp)=>{
         this.clear();
+        console.log('resp',resp);
+        if(!resp.waiting){
+          Dialog.create({
+              title: `${resp.trackingNumber} packing done!`,
+              message: `Please pick your box from <h4>${resp.cellCode}</h4>`,
+              html: true
+          })
+        }
+
       });
     },
     multiData(p){
