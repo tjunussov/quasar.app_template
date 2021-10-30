@@ -4,19 +4,29 @@ import { boot } from 'quasar/wrappers'
 
 export default boot(({ app }) => {
 
-  app.config.globalProperties.$speechTalk = (lang = 'en-US', text = '') => {
+  // Execute loadVoices.
+  var voices = loadVoices();
 
+  window.speechSynthesis.onvoiceschanged = function(e) {
+    voices = loadVoices();
+  };
 
-    console.debug(lang,text);
+  function loadVoices(){
+    return speechSynthesis.getVoices().filter((i)=>i.lang.indexOf('en')>=0);
+  }
+
+  app.config.globalProperties.$speechTalk = (text = '') => {
 
     return new Promise((resolve, reject) => {
       let speech = new SpeechSynthesisUtterance()
       // Set the text and voice attributes.
-      speech.lang = lang
+
+      speech.voice = voices[Math.floor(Math.random()*voices.length)+1];
+      // speech.lang = lang
       speech.text = text
       speech.volume = 1
       speech.rate = 1
-      speech.pitch = 1
+      speech.pitch = 1.2
       setTimeout(() => {
         window.speechSynthesis.speak(speech)
       }, 300)

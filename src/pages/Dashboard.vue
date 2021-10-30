@@ -73,9 +73,6 @@ export default {
     this.$q.dark.set(true);
     intr = window.setInterval(this.dash,5000);
   },
-  mounted(){
-    this.setVoices();
-  },
   beforeUnmount(){
     console.debug('beforeDestroy',intr);
     this.$q.dark.set(false);
@@ -112,22 +109,7 @@ export default {
       }
     },
     say(order,cell){
-      return this.$speechTalk('en-GB',`Order number ${String(order).split("").join(" ")} ${cell}`);
-    },
-    setVoices () {
-      let id = setInterval(() => {
-        if (this.optionsVoice.length === 0) {
-          this.voicesList()
-        } else {
-          clearInterval(id)
-        }
-      }, 50)
-    },
-    voicesList () {
-      let teste = window.speechSynthesis
-      this.optionsVoice = teste.getVoices().map(voice => ({
-        label: voice.name, value: voice.lang
-      }))
+      return this.$speechTalk(`Order number ${String(order).split("").join(" ")} ${cell}`);
     },
   }
 };
