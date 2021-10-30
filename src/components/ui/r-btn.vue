@@ -53,11 +53,9 @@ export default {
   props: {
     color: {
       type: String,
-      default: 'primary'
     },
     textColor: {
       type: String,
-      default: 'white'
     },
     icon: {
       type: String,

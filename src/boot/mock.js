@@ -100,12 +100,13 @@ const $mock = new MockAdapter($http,{delayResponse:500})
 // })
 .onAny('/locations/demo/orders-waiting').reply((cfg)=>{
   var o = Object.assign({},order);
+  o.created = new Date();
   o.waiting = (Math.random()*10>8);
   o.trackingNumber = Math.ceil(Math.random()*1000000000);
   if(o.waiting) o.cellCode = null
   if(Math.random()*10>3) 
     orderWaitings.unshift(o);
-  else if(Math.random()*10>5) 
+  else if(Math.random()*10>5 && !o.waiting) 
     orderWaitings.splice(1,1);
   return [200,orderWaitings];
 }).onAny().passThrough();

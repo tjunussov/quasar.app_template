@@ -1,10 +1,10 @@
 <template lang="pug">
-q-layout.bg-grey-4(view='lHr LpR lFr')
+q-layout(view='lHr LpR lFr' :class="dark?'bg-black':'bg-grey-4'")
   Keyboard
-  q-header.bg-white.shadow-light(bordered height-hint="98")
-    q-toolbar.q-pa-sm.text-primary
+  q-header.shadow-light(height-hint="98" :class="dark?'bg-black':'bg-white'")
+    q-toolbar.q-pa-sm(:class="dark?'text-dark':'text-primary'" dark)
       r-btn(icon='menu' aria-label='Menu' @click='toggleLeftDrawer')
-      q-toolbar-title.text-h5.text-center.text-weight-bold.text-black
+      q-toolbar-title.text-h5.text-center.text-weight-bold(:class="dark?'':'text-black'")
         slot(name="header") Header
       //- r-btn(icon='person')
       r-btn(icon='support_agent')
@@ -35,6 +35,12 @@ export default defineComponent({
     Menu,
     Nav,
     Keyboard
+  },
+  props: {
+    dark: {
+      type: Boolean,
+      default: false
+    },
   },
 
 

@@ -1,25 +1,22 @@
 <template lang="pug">
-layout
+layout(dark)
   template(v-slot:header) Dashboard
   template(v-slot:footer): r-empty
-  q-page.q-pa-md.q-gutter-xs
-    transition-group(appear enter-active-class="animated slideInDown" leave-active-class="animated fadeOut")
-      q-list(v-if="!queue.length")
-        q-item.q-pa-md
-          q-item-section
-            q-item-label.text-h6.text-weight-bold.text-center No rider is waiting ... 
-      
-      q-btn.ticket.text-left(unelevated Zoutline v-for="q in queue" :key="q.trackingNumber" color="white" text-color="black")
-        q-item-section
-          q-item-label.text-h6
-            q-chip.text-h6.q-ml-none(color="primary" text-color="grey" v-if="q.referenceNumber") \#{{q.referenceNumber}}
-            span.text-weight-bold {{q.trackingNumber}}
-          q-item-label.text-grey.text-small
-            q-icon(name="schedule") 
-            | {{$format(q.created,'HH:mm')}}
-        q-item-section(side Ztop)
-          q-item-label.text-h6.text-dark.text-weight-bold 
-            q-btn.Zno-border-radius.q-px-md(:class="{'blink':!q.cellCode}" outline dense size="lg") {{q.cellCode?q.cellCode:'WAIT...'}}
+  q-page( v-if="queue.length")
+    q-tabs(align="justify")
+      q-tab(label="Waiting" v-if="isWait")
+      q-tab(label="Done")
+    .row(:class="{'blink':blink}")
+      .col.q-pl-xs.q-gutter-xs(v-if="isWait")
+        transition-group(appear enter-active-class="animated slideInDown" leave-active-class="animated fadeOut")
+          ticket.bg-primary(v-for="q in waitQueue" :key="q.trackingNumber" :t="q")
+      .col.q-px-xs.q-gutter-xs(:class="{'grid-container':!isWait}")
+        transition-group(appear enter-active-class="animated slideInDown" leave-active-class="animated fadeOut")
+          ticket.bg-dark(v-for="q in doneQueue" :key="q.trackingNumber" :t="q")
+  q-page.flex.flex-center(v-else)
+      q-item-label.text-h6.text-weight-bold.text-center 
+        q-icon(name="mood" size="65px")
+        .q-mt-md No rider is waiting ... 
             
     
 </template>
@@ -32,6 +29,7 @@ import { $api } from '../store/services/api'
 import { $sound } from '../store/services/sound'
 
 import layout from 'layouts/AppLayout.vue'
+import ticket from 'components/DashboardTicket.vue'
 
 let intr = null;
 
@@ -39,6 +37,7 @@ export default {
   name: 'Dashboard',
   data () {
     return {
+      blink:false,
       queue:[
     // {
     //   "id": 1,
@@ -55,22 +54,38 @@ export default {
   ]
     }
   },
+  computed:{
+    isWait(){
+      return this.waitQueue.length > 0;
+    },
+    doneQueue(){
+      return this.queue.filter((f)=>!f.waiting)
+    },
+    waitQueue(){
+      return this.queue.filter((f)=>f.waiting)
+    }
+  },
   created(){
     this.dash();
+    this.$q.dark.set(true);
     intr = window.setInterval(this.dash,5000);
   },
   beforeUnmount(){
     console.debug('beforeDestroy',intr);
+    this.$q.dark.set(false);
     window.clearInterval(intr)
   },
   components: {
-    layout
+    layout,
+    ticket
   },
   methods:{
     dash() {
+      this.blink = true;
       $api.dashboard().then((resp)=>{
         console.debug('$api.dashboard','resp->');
         this.processSound(resp);
+        this.blink = false;
         this.queue = resp.data;
       });
     },
@@ -91,20 +106,18 @@ function isChanged(a,b){
 }
 </script>
 
-<style lang="sass" scoped>
+<style lang="sass">
 
-.ticket 
-  min-width: 286px
 
-.blink
-  animation: blink-animation 1s steps(5, start) infinite
-  -webkit-animation: blink-animation 1s steps(5, start) infinite
+.blink .ticket-arrow
+  visibility: hidden
 
-@keyframes blink-animation
-  to
-    visibility: hidden
 
-@-webkit-keyframes blink-animation
-  to
-    visibility: hidden
+.grid-container
+  display: grid
+  grid-template-columns: 50% 50%
+  grid-template-rows: auto auto
+  grid-auto-flow: column
+  column-count:2
+
 </style>

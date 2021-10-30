@@ -64,14 +64,16 @@ import { $api } from '../store/services/api'
 
 export default defineComponent({
   name: 'Menu',
-
+  created(){
+    this.select(localStorage.getItem('location') != null ? localStorage.getItem('location') : 'DEV')
+  },
   data(){
     return {
       menu:{
-        'DEV':'AbuDhabi',
-        'demo':'Dubai',
+        'DEV':'Dubai',
+        'demo':'Demo',
       },
-      selected : localStorage.getItem('location') != null ? localStorage.getItem('location') : 'demo'
+      selected : null,
     }
   },
   methods:{
