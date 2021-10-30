@@ -49,7 +49,7 @@ export default defineComponent({
         if(!resp.waiting){
           Dialog.create({
               title: `${resp.trackingNumber} packing done!`,
-              message: `Please pick your box from <h4>${resp.cellCode}</h4>`,
+              message: `Please pick your order from <h4>${resp.cellCode}</h4>`,
               html: true
           })
         }
