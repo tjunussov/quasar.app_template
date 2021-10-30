@@ -29,6 +29,7 @@ module.exports = configure(function (ctx) {
       'urlParams',
       'version',
       'notify',
+      'dialog',
       // 'router',
     ],
 
@@ -125,7 +126,8 @@ module.exports = configure(function (ctx) {
       plugins: [
         'Meta',
         'Notify',
-        'Dialog'
+        'Dialog',
+        'LoadingBar'
       ]
     },
 

@@ -1,5 +1,6 @@
 import { $http } from 'boot/axios'
-import { Notify } from 'quasar'
+// import { Notify } from 'quasar'
+import { Dialog as Notify } from 'boot/dialog'
 import { $sound } from '../../store/services/sound'
 
 function handleError(error) {
@@ -39,7 +40,7 @@ const instoreApi = {
     },
     pick(labelNumber,trackingNumber,data) {
       // if labelNumber undefined then use trackingNumber
-      return this.track({labelNumber:labelNumber||trackingNumber,trackingNumber,status:'PICKING_COMPLETED',data})
+      return this.track({labelNumber:labelNumber||trackingNumber,trackingNumber,status:'PICKING_COMPLETED',data,disableNotify:true})
     },
     pack(labelNumber,cellCode) {
       // if cell code not specified then is is Packing Started
@@ -138,17 +139,23 @@ function resultBuilder(param,resp){
   $sound.track();
 
   resp = resp.data;
-  resp.result = "Order" + 
-  (resp.locationCode?' Location '+resp.locationCode:'') + 
-  (resp.trackingNumber?' Tracking '+resp.trackingNumber:'') + 
-  
-  (resp.cellCode?' Cell '+resp.cellCode:'') + 
-  (resp.labelNumber?' Label '+resp.labelNumber:'') + 
-  (resp.status?' Status '+resp.status:'') +
-  (resp.waiting?' WAITING ':'');
 
-  console.debug('$api.track',param,resp);
-  Notify.create({ type: 'info',color: 'green',message: resp.result });
+  if(!resp.result){
+    resp.result = "Order" + 
+    (resp.locationCode?' Location '+resp.locationCode:'') + 
+    (resp.trackingNumber?' Tracking '+resp.trackingNumber:'') + 
+    
+    (resp.cellCode?' Cell '+resp.cellCode:'') + 
+    (resp.labelNumber?' Label '+resp.labelNumber:'') + 
+    (resp.waiting?' WAITING ':'');
+
+    console.debug('$api.track',param,resp);
+  }
+
+  var p = {type: 'positive',message: resp.result};
+  p.details ='Status <b>'+resp.status + '</b>';
+
+  if(!param.disableNotify) Notify.create(p);
 
   return resp;
 }

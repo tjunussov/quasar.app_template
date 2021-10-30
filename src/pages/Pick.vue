@@ -6,11 +6,13 @@ layout.max-width
   q-page.q-pa-lg.flex.flex-center
     .q-gutter-y-md.full-width
 
-      q-dialog(v-model="showPrintDialog" size="lg")
-        q-card.full-width.q-pa-lg.Zno-border-radius.no-box-shadow
-          print(ref="printRef" :data="order")
-          q-card-actions
-            r-btn(@click="print" text-color="primary" outline) Print
+      r-dialog(v-model="showPrintDialog" title="Pick" :message="order?order.result:''" :timeout="10000" @timeout="print")
+        template(v-slot:footer): r-btn(@click="print" text-color="primary" outline) Print 
+        template(v-slot:details) 
+          q-item-label Status 
+            span.text-weight-bold {{order?order.status:''}}
+        print(ref="printRef" :data="order")
+          
 
       r-card
         q-card-section
@@ -44,7 +46,7 @@ export default defineComponent({
     layout,
     print,
     orderHistory,
-    InputScan
+    InputScan,
   },
 
   data(){
@@ -56,15 +58,7 @@ export default defineComponent({
       order:null,
       raw:null,
     }
-  },
-  watch:{
-    showPrintDialog(v){
-      if(v) window.setTimeout(()=>{
-        this.showPrintDialog = false
-      },20000)
-    }
-  },
-    
+  },  
   methods:{
     recover(order){
       this.labelNumber = order.labelNumber;
@@ -90,6 +84,7 @@ export default defineComponent({
     print(){
       this.$refs.printRef.print().then(()=>{
         this.showPrintDialog = false;
+        this.order = null;
       })
     }
   }

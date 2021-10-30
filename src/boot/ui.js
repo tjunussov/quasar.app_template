@@ -1,6 +1,7 @@
 import { boot } from 'quasar/wrappers'
 import rBtn from '../components/ui/r-btn.vue'
 import rCard from '../components/ui/r-card.vue'
+import rDialog from '../components/ui/r-dialog.vue'
 // import rBtnCard from '../components/ui/r-btncard.vue'
 // import rInput from '../components/ui/r-input.vue'
 // import rInputSearch from '../components/ui/r-input-search.vue'
@@ -23,6 +24,8 @@ export default boot(async ({ app }) => {
   app.component('r-btn', rBtn)
   app.component('r-card', rCard)
   app.component('r-empty', EmptySlot)
+  app.component('r-dialog', rDialog)
+  
   
 
   // Vue.component('r-btncard', rBtnCard)
