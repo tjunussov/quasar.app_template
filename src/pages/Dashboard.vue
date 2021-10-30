@@ -1,6 +1,7 @@
 <template lang="pug">
 layout(dark)
   template(v-slot:header) Dashboard
+  template(v-slot:header-right): r-btn(icon='volume_up' @click="say('1 2 3 4','pick from box 3')")
   template(v-slot:footer): r-empty
   q-page( v-if="queue.length")
     q-tabs(align="justify")
@@ -38,6 +39,8 @@ export default {
   data () {
     return {
       blink:false,
+      optionsVoice:[],
+      nospeak:true,
       queue:[
     // {
     //   "id": 1,
@@ -70,6 +73,9 @@ export default {
     this.$q.dark.set(true);
     intr = window.setInterval(this.dash,5000);
   },
+  mounted(){
+    this.setVoices();
+  },
   beforeUnmount(){
     console.debug('beforeDestroy',intr);
     this.$q.dark.set(false);
@@ -80,10 +86,10 @@ export default {
     ticket
   },
   methods:{
+    
     dash() {
       this.blink = true;
       $api.dashboard().then((resp)=>{
-        console.debug('$api.dashboard','resp->');
         this.processSound(resp);
         this.blink = false;
         this.queue = resp.data;
@@ -93,10 +99,36 @@ export default {
       if(isChanged(this.queue,resp.data)) {
         if(this.queue.length > resp.data.length)
           $sound.dequeue();
-        else 
+        else {
+          var o = resp.data[0];
+          if(o && this.nospeak){
+            this.nospeak = false;
+            this.say(o.trackingNumber||o.referenceNumber,o.cellCode?'pick from box '+o.cellCode:'please wait').then(()=>{
+              this.nospeak = true;
+            });
+          }
           $sound.enqueue();
+        }
       }
-    }
+    },
+    say(order,cell){
+      return this.$speechTalk('en-GB',`Order number ${String(order).split("").join(" ")} ${cell}`);
+    },
+    setVoices () {
+      let id = setInterval(() => {
+        if (this.optionsVoice.length === 0) {
+          this.voicesList()
+        } else {
+          clearInterval(id)
+        }
+      }, 50)
+    },
+    voicesList () {
+      let teste = window.speechSynthesis
+      this.optionsVoice = teste.getVoices().map(voice => ({
+        label: voice.name, value: voice.lang
+      }))
+    },
   }
 };
 

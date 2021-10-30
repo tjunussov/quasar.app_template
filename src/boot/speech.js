@@ -4,7 +4,11 @@ import { boot } from 'quasar/wrappers'
 
 export default boot(({ app }) => {
 
-app.config.globalProperties.$speechTalk = (lang = 'en-US', text = '') => {
+  app.config.globalProperties.$speechTalk = (lang = 'en-US', text = '') => {
+
+
+    console.debug(lang,text);
+
     return new Promise((resolve, reject) => {
       let speech = new SpeechSynthesisUtterance()
       // Set the text and voice attributes.
@@ -17,19 +21,20 @@ app.config.globalProperties.$speechTalk = (lang = 'en-US', text = '') => {
         window.speechSynthesis.speak(speech)
       }, 300)
 
-      speech.addEventListener('start', () => {
-        Loading.show({
-          delay: 0,
-          spinner: QSpinnerAudio, // ms,
-          backgroundColor: 'primary'
-        })
-      })
+      // speech.addEventListener('start', () => {
+      //   Loading.show({
+      //     delay: 0,
+      //     spinner: QSpinnerAudio, // ms,
+      //     backgroundColor: 'primary'
+      //   })
+      // })
 
       speech.addEventListener('end', () => {
-        Loading.hide()
+        // Loading.hide()
         resolve(true)
       })
     })
+
   }
 
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
@@ -86,4 +91,5 @@ app.config.globalProperties.$speechTalk = (lang = 'en-US', text = '') => {
       recognition.stop()
     }
   }
-}
+  
+});

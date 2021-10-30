@@ -30,6 +30,7 @@ module.exports = configure(function (ctx) {
       'version',
       'notify',
       'dialog',
+      'speech',
       // 'router',
     ],
 
