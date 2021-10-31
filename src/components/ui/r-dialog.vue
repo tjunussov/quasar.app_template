@@ -6,7 +6,7 @@ q-dialog(ref="dialog" :modelValue="input" @update:modelValue="input = $event;" @
     template(v-slot:footer)
       q-footer.bg-transparent.q-pa-lg: slot(name="footer"): r-btn(@click="onOKClick" text-color="dark" outline) Back
     .q-page
-      q-card-section.q-pa-lg.text-white(:class="{['bg-'+type]:true}")
+      q-card-section.q-pa-lg.text-white(:class="{['bg-'+(color||type)]:true}")
         //- .text-subtitle Rider packed successfully
         .text-h3.text-weight-bold {{type=='positive'?'Success':(type=='negative'?'Error':type)}}
         .text-subtitle {{message}}
@@ -37,6 +37,10 @@ export default {
       type: String,
       default: 'positive'
     },
+    color: {
+      type: String,
+      default: null
+    },
     title: {
       type: String,
       default: null
@@ -51,7 +55,7 @@ export default {
     },
     timeout:{
       type: Number,
-      default: 1000
+      default: 2000
     }
   },
   watch:{
@@ -91,6 +95,7 @@ export default {
         interval = setInterval(() => {
           this.$q.loadingBar.increment((i++)*2);
           if(i == 10){
+            // console.log('clearing',i,this.timeout);
             clearInterval(interval)
             this.$q.loadingBar.stop();
             this.hide();

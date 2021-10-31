@@ -3,14 +3,24 @@ import { Dialog, Platform  } from 'quasar'
 
 const $cordovaApi = {
    
-    printLabel(data) {
+    printLabel(address,data) {
       $sound.print();
       return new Promise((resolve, reject) => {
         window.cordova.plugins.printer.print(resolve,
           (error) => {
             reject("Printing failed: " + error);
           },
+          address,
           data)
+      })
+    },
+
+    printerList() {
+      return new Promise((resolve, reject) => {
+        window.cordova.plugins.printer.list(resolve,
+          (error) => {
+            reject("Printer List failed: " + error);
+          })
       })
     },
 
@@ -79,14 +89,30 @@ if(!Platform.is.cordova) {
         }
       },
       printer: {
-        print: function(result,error,data){
-          console.debug('mock cordova print',data);
+        print: function(result,error,address,data){
+          console.debug('mock cordova print',address,data);
           window.setTimeout(()=>{
             window.print();
             result();
           },500);
-        }
-      }
+        },
+        list: function(result,error,data){
+          console.debug('mock cordova printList',data);
+          window.setTimeout(()=>{
+            result([
+              {
+                  address: "18:04:ED:6B:13:D4",
+                  name: "XXRBJ200701857"
+              },
+              {
+                  address: "18:04:ED:6B:13:D4",
+                  name: "Bluetooth Printer"
+              }
+          ]);
+          },500);
+        },
+
+      },
     }
   }
 };

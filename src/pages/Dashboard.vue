@@ -98,9 +98,9 @@ export default {
           $sound.dequeue();
         else {
           var o = resp.data[0];
-          if(o && this.nospeak){
-            this.nospeak = false;
-            this.say(o.trackingNumber||o.referenceNumber,o.cellCode?'pick from box '+o.cellCode:'please wait').then(()=>{
+          if(o && this.nospeak && !o.waiting){
+            // this.nospeak = false;
+            this.say(o.trackingNumber||o.referenceNumber,'pick from box '+o.cellCode).then(()=>{
               this.nospeak = true;
             });
           }
@@ -109,7 +109,7 @@ export default {
       }
     },
     say(order,cell){
-      return this.$speechTalk(`Order number ${String(order).split("").join(" ")} ${cell}`);
+      return this.$speechTalk(`Order number ${String(order).substr(-4).split("").join(" ")} ${cell}`);
     },
   }
 };

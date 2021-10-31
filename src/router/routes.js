@@ -13,6 +13,8 @@ const routes = [
   { path: '/pick', alias:'', component: () => import('pages/Pick.vue') },
   { path: '/pack', component: () => import('pages/Pack.vue') },
   { path: '/ride', component: () => import('pages/Ride.vue') },
+
+  { path: '/settings', component: () => import('pages/Settings.vue') },
   { path: '/dialog', component: () => import('src/components/ui/r-dialog.vue') },
   { path: '/dashboard', component: () => import('pages/Dashboard.vue') },
   // Always leave this as last one,

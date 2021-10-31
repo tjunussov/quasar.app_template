@@ -7,11 +7,8 @@
     .barcode {{encode(data.labelNumber||data.trackingNumber)}}
     .text-h5.text-weight-bold \#{{data.labelNumber||data.trackingNumber}}
   pre#printSection.hidden
-    | ^XA
-    | ^FO100,100^BY3
-    | ^B1N,N,150,Y,N
-    | ^FD\#{{data.labelNumber||data.trackingNumber}}^FS
-    | ^XZ
+    | `^XA^FO20,20^BY2^BCN,100,Y,N,N^FDL{{this.data.labelNumber||this.data.trackingNumber}}^FS^XZ`
+ 
 </template>
 
 <script>
@@ -36,19 +33,32 @@ export default defineComponent({
   },
   methods:{
     print(){
-      
-      this.$q.notify({
-        spinner: true,
-        timeout: 1000,
-        position: 'top',
-        message: 'Printing Label',
-        color: 'primary'
-      })
+      var selectedPrinter = this.$root.selectedPrinter;
 
-      if(this.data){
-        var text = document.getElementById('printSection').innerText;
-        console.debug('Printing',text);
-        return $cordovaApi.printLabel(text);
+      if(selectedPrinter && selectedPrinter.address){
+
+        console.log('selectedPrinter',selectedPrinter);
+      
+        this.$q.notify({
+          spinner: true,
+          timeout: 1000,
+          position: 'top',
+          message: 'Printing Label',
+          color: 'primary'
+        })
+
+        if(this.data){
+          var text = document.getElementById('printSection').innerText;
+          console.debug('Printing',text);
+          return $cordovaApi.printLabel(selectedPrinter.address,text);
+        }
+      } else {
+        this.$q.notify({
+          position: 'top',
+          message: 'Printer not selected, Please go to settings',
+          type: 'negative'
+        })
+        return Promise.resolve();
       }
     },
     encode(val){

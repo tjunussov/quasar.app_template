@@ -8,7 +8,7 @@ var order = {
       "created": "2021-10-24T21:15:22.659384+06:00",
       "modified": "2021-10-24T21:19:01.670201+06:00",
       "locationCode": "DEMO",
-      "cellCode": "CELL-DEV-01",
+      "cellCode": "A01",
       "trackingNumber": "1230982192",
       "labelNumber": "1230982192",
       "status": "COMPLETED",
@@ -67,12 +67,13 @@ const $mock = new MockAdapter($http,{delayResponse:500})
   order["created"] = new Date(),
   order["modified"] = new Date(),
   order["locationCode"] = "demo";
+  
 
   if(data.status == ''){
     order['status'] = 'PACKING_COMPLETED'
   }
 
-  order.waiting = (Math.random()*10>5)
+  order.waiting = (Math.floor(Math.random()*10)>5)
 
   if(data.cellCode) { order["cellCode"] = data.cellCode }
   if(data.trackingNumber) { order["trackingNumber"] = data.trackingNumber; localStorage.setItem("Tracking Number",data.trackingNumber); }
@@ -102,6 +103,7 @@ const $mock = new MockAdapter($http,{delayResponse:500})
   var o = Object.assign({},order);
   o.created = new Date();
   o.waiting = (Math.random()*10>8);
+  o.cellCode = 'A0'+Math.floor(Math.random()*9+1)
   o.trackingNumber = Math.ceil(Math.random()*1000000000);
   if(o.waiting) o.cellCode = null
   if(Math.random()*10>3) 

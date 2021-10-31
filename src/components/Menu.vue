@@ -43,9 +43,9 @@
           q-item-section.q-ml-md(avatar): q-icon(name="show_chart")
           q-item-section Reports
         q-separator(spaced="0" inset="item" dark)
-        q-item(clickable to="/settings" disabled active-class="bg-indigo-8")
+        q-item(clickable to="/settings" active-class="bg-indigo-8")
           q-item-section.q-ml-md(avatar): q-icon(name="settings")
-          q-item-section Admin
+          q-item-section Settings
         q-separator(spaced="0" inset="item" dark)
         q-item(clickable to="/manual" disabled active-class="bg-indigo-8")
           q-item-section.q-ml-md(avatar): q-icon(name="contact_support")

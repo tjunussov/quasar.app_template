@@ -2,16 +2,16 @@
 layout.max-width
   template(v-slot:header) Pick
   template(v-slot:list)
-    orderHistory(:hist="order" @open="recover" @clear="order = null")
+    orderHistory(:hist="hist" @open="recover" @clear="hist = null")
   q-page.q-pa-lg.flex.flex-center
     .q-gutter-y-md.full-width
 
       r-dialog(v-model="showPrintDialog" title="Pick" :message="order?order.result:''" :timeout="10000" @timeout="print")
-        template(v-slot:footer): r-btn(@click="print" text-color="primary" outline) Print 
+        template(v-slot:footer v-if="$root.selectedPrinter"): r-btn(@click="print" text-color="primary" outline) Print 
         template(v-slot:details) 
           q-item-label Status 
             span.text-weight-bold {{order?order.status:''}}
-        print(ref="printRef" :data="order")
+        print(ref="printRef" :data="order" v-if="$root.selectedPrinter")
           
 
       r-card
@@ -56,14 +56,16 @@ export default defineComponent({
       trackingNumber:null,
       showPrintDialog:false,
       order:null,
+      hist:null,
       raw:null,
     }
   },  
   methods:{
-    recover(order){
-      this.labelNumber = order.labelNumber;
-      this.trackingNumber = order.trackingNumber;
-      this.order = null;
+    recover(hist){
+      this.labelNumber = hist.labelNumber;
+      this.trackingNumber = hist.trackingNumber;
+      this.order = hist;
+      this.hist = null;
     },
     clear(){
       this.labelNumber = null;
@@ -77,7 +79,7 @@ export default defineComponent({
       //labelNumber,trackingNumber
       return $api.pick(this.labelNumber,this.trackingNumber,this.raw).then((resp)=>{
         this.showPrintDialog = true;
-        this.order = resp;
+        this.order = this.hist = resp;
         this.clear();
       });
     },

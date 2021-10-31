@@ -1,9 +1,10 @@
 <template lang="pug">
 q-item.ticket.no-border-radius.q-pa-none(unelevated Zoutline)
   q-item-section.q-pa-md.q-px-md(avatar)
-    q-item-label.text-h6
-      q-chip.text-h6.q-ml-none(color="primary" text-color="grey" v-if="t.referenceNumber") \#{{t.referenceNumber}}
-      span.text-weight-bold {{t.trackingNumber}}
+    q-item-label.text-h5
+      span.text-grey-8 {{String(t.trackingNumber).substr(0,String(t.trackingNumber).length - 4)}} 
+      span.text-weight-bold.q-ml-xs {{String(t.trackingNumber).substr(-4)}}
+      //- q-chip.text-h6.q-ml-xs(color="primary" text-color="grey") \#{{String(t.trackingNumber).substr(-4)}}
     q-item-label.text-grey-6.text-small
       q-icon(name="schedule")
       | {{$format(t.created,'HH:mm')}}

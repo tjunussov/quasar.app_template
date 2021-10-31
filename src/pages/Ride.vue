@@ -25,7 +25,7 @@ import InputScan from 'src/components/InputScan.vue'
 import layout from 'layouts/AppLayout.vue'
 import { defineComponent, ref, reactive } from 'vue'
 import { $api } from '../store/services/api'
-import { Dialog  } from 'quasar'
+import { Dialog } from 'boot/dialog'
 
 export default defineComponent({
   name: 'Ride',
@@ -45,13 +45,24 @@ export default defineComponent({
       // trackingNumber
       $api.riderCheckIn(this.trackingNumber,this.raw).then((resp)=>{
         this.clear();
-        console.log('resp',resp);
         if(!resp.waiting){
           Dialog.create({
-              title: `${resp.trackingNumber} packing done!`,
-              message: `Please pick your order from <h4>${resp.cellCode}</h4>`,
-              html: true
+              type: 'Cell '+resp.cellCode,
+              color: 'positive',
+              message: `Order #${resp.trackingNumber} ready for pickup`,
+              title: 'Pickup Ready',
+              timeout:10000,
+              details: `Pick order from <b>${resp.cellCode}</b>`
           })
+        } else {
+          Dialog.create({
+              type: 'Please Wait',
+              color: 'primary',
+              message: resp.result,
+              title: 'Ride',
+              timeout:2000,
+              details: 'Status <b>'+resp.status + '</b>'
+          });
         }
 
       });

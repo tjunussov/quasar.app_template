@@ -53,7 +53,7 @@ const instoreApi = {
       return this.track({labelNumber,status:'RIDER_CHECKEDOUT'});
     },
     riderCheckIn(trackingNumber,data) {
-      return this.track({trackingNumber,data,status:'RIDER_CHECKEDIN'});
+      return this.track({trackingNumber,data,status:'RIDER_CHECKEDIN',disableNotify:true});
     },
     
 
