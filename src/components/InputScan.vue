@@ -84,6 +84,7 @@ export default defineComponent({
     scanBarcode($event){
       $cordovaApi.scanBarcode({label:this.label,defaultValue:this.defaultValue}).then((data)=>{
         console.debug('$cordovaApi.scanBarcode',data);
+        if(this.prefix!='') data = data.substr(1);
         this.input = data;
         this.$emit('update:modelValue', this.input);
         this.defocus($event);

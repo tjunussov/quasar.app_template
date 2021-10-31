@@ -6,12 +6,12 @@ layout.max-width
   q-page.q-pa-lg.flex.flex-center
     .q-gutter-y-md.full-width
 
-      r-dialog(v-model="showPrintDialog" title="Pick" :message="order?order.result:''" :timeout="10000" @timeout="print")
-        template(v-slot:footer v-if="$root.selectedPrinter"): r-btn(@click="print" text-color="primary" outline) Print 
+      r-dialog(v-model="showPrintDialog" @hide="clear" title="Pick" :message="order?order.result:''" :timeout="10000" @timeout="print")
+        template(v-slot:footer v-if="$root.selectedPrinter && !useLabel"): r-btn(@click="print" text-color="primary" outline) Print 
         template(v-slot:details) 
           q-item-label Status 
             span.text-weight-bold {{order?order.status:''}}
-        print(ref="printRef" :data="order" v-if="$root.selectedPrinter")
+        print(ref="printRef" :data="order" v-if="$root.selectedPrinter && !useLabel")
           
 
       r-card
@@ -48,10 +48,21 @@ export default defineComponent({
     orderHistory,
     InputScan,
   },
-
+  created(){
+    var p = localStorage.getItem('printer');
+    if(p !== null) {
+      this.$root.selectedPrinter = this.selectedPrinter = JSON.parse(p);
+    }
+  },
+  watch:{
+    useLabel(v){
+      if(v) localStorage.setItem('useLabel',v)
+      else localStorage.removeItem('useLabel')
+    }
+  },
   data(){
     return {
-      useLabel:false,
+      useLabel:(localStorage.getItem('useLabel')!==null),
       labelNumber:null,
       trackingNumber:null,
       showPrintDialog:false,
@@ -70,7 +81,7 @@ export default defineComponent({
     clear(){
       this.labelNumber = null;
       this.trackingNumber = null;
-      this.useLabel = false
+      this.useLabel = false;
     },
     multiData(p){
       this.raw = p.raw
@@ -80,14 +91,15 @@ export default defineComponent({
       return $api.pick(this.labelNumber,this.trackingNumber,this.raw).then((resp)=>{
         this.showPrintDialog = true;
         this.order = this.hist = resp;
-        this.clear();
       });
     },
     print(){
-      this.$refs.printRef.print().then(()=>{
-        this.showPrintDialog = false;
-        this.order = null;
-      })
+      if(!this.useLabel){
+        this.$refs.printRef.print().then(()=>{
+          this.showPrintDialog = false;
+          this.order = null;
+        })
+      }
     }
   }
 })

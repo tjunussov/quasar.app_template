@@ -6,15 +6,13 @@ layout.max-width
       r-card
         q-card-section
           InputScan(label="Label Number" v-model="labelNumber" type="barcode" prefix="L" length="2")
-        q-card-actions
+        //- q-card-actions
           r-btn(@click="pack" text-color="primary" outline :disabled="!labelNumber") Info
 
-      q-slide-transition
-        r-card(v-show="labelNumber")
-          q-card-section
-            InputScan(label="Cell Number" v-model="cell" length="3" type="barcode" prefix="C" defaultValue="CELL-DEV-01")
-          q-card-actions
-            r-btn(@click="pack" :disabled="!cell || !labelNumber") Pack
+        q-card-section
+          InputScan(label="Cell Number" v-model="cell" length="3" type="barcode" prefix="C" defaultValue="A01")
+        q-card-actions
+          r-btn(@click="pack" :disabled="!cell || !labelNumber") Pack
 </template>
 
 <script>

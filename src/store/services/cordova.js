@@ -122,6 +122,10 @@ function mockCameraUI(result,error,data,cfg){
   let seconds = 1
   // console.debug('mockCamera',data);
 
+  // if(cfg.type != 'ocr'){
+  //   data = cfg.prefix + data;
+  // }
+
   const timer = setInterval(() => {
       seconds--
 
