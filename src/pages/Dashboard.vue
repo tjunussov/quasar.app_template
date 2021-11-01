@@ -36,6 +36,9 @@ let intr = null;
 
 export default {
   name: 'Dashboard',
+  cam:{
+    test:'',
+  },
   data () {
     return {
       blink:false,
@@ -62,10 +65,10 @@ export default {
       return this.waitQueue.length > 0;
     },
     doneQueue(){
-      return this.queue.filter((f)=>!f.waiting)
+      return this.queue.filter((f)=>isDone(f.status))
     },
     waitQueue(){
-      return this.queue.filter((f)=>f.waiting)
+      return this.queue.filter((f)=>!isDone(f.status))
     }
   },
   created(){
@@ -98,7 +101,7 @@ export default {
           $sound.dequeue();
         else {
           var o = resp.data[0];
-          if(o && this.nospeak && !o.waiting){
+          if(o && this.nospeak && isDone(o.status)){
             // this.nospeak = false;
             this.say(o.trackingNumber||o.referenceNumber,'pick from box '+o.cellCode).then(()=>{
               this.nospeak = true;
@@ -114,6 +117,10 @@ export default {
   }
 };
 
+
+function isDone(f){
+  return (f == 'PACKING_COMPLETED' || f == 'RIDER_CHECKEDOUT')
+}
 
 function isChanged(a,b){
   return JSON.stringify(a) != JSON.stringify(b)

@@ -74,7 +74,8 @@ if(!Platform.is.cordova) {
     plugins: { 
       barcodeScanner: {
         scan: function(result,error,cfg){
-          var data = cfg.mock.defaultValue||scanMockValue(cfg.mock.label);
+          console.log(event)
+          var data = (cfg.mock.prefix?cfg.mock.prefix:'')+(cfg.mock.defaultValue||scanMockValue(cfg.mock.label));
           mockCameraUI(result,error,data,cfg);
         }
       },

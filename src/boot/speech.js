@@ -7,6 +7,7 @@ export default boot(({ app }) => {
     if(!window.speechSynthesis){
       console.debug('speechkit not found on device');
       app.config.globalProperties.$speechTalk = function() {};
+      return;
     }
     // Execute loadVoices.
     var voices = loadVoices();

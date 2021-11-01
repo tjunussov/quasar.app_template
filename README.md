@@ -3,6 +3,13 @@ Quasar App
 
 ![Alt text](-/raw/main/public/screen/screen_app.png "Screen")
 
+###
+PLUGINIFY
++ settings
++ dialog
++ axios
++ localStorage https://github.com/ropbla9/vue-reactive-storage
+
 ### 
 TODO
 + dashboard, picking, packing, sounds
@@ -23,13 +30,15 @@ TODO
 - dashboard left align, dark mode, split waiting two columns
 - bug: api location init
 
-
-- mock refactor, mock barcode prefix 
-- button disabledClick action
++ mock barcode prefix 
 + bug: printerSelected not updated
 + bug: speechSynth android webview undefined
-- if useLabel disable print rector
++ if useLabel disable print rector
 + bug:remove from barcode scanner L 
+- mock refactor, 
+- button disabledClick action
 - printerSelected vuex refactor
+- waiting done to toolbar
+- dashboard show status
 
 #netsh interface portproxy add v4tov4 listenaddress=192.168.88.33 listenport=8080 connectaddress=172.27.32.1 connectport=8080
