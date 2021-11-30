@@ -26,7 +26,13 @@ export default {
 
       // console.log('keycode',event.key,event.keyCode);
 
-      if(event.target.className.indexOf('nokeyboard') >= 0) return;
+      if( event.target && event.target.className.indexOf('nokeyboard') >= 0) return;
+
+      //
+      if( event.target && event.target.tagName != 'BODY') {
+        // console.debug('Blurring', event.target.tagName, event.target );
+        event.target.blur();
+      }
 
       if( event.keyCode >= 96 && event.keyCode <=105 ){ // only numpad and top numbers
         this.keyText += String.fromCharCode(event.keyCode-48);
@@ -41,6 +47,8 @@ export default {
         }
       } else if( event.keyCode == 110 || event.keyCode == 190 ) { // "."
         this.keyText += ".";
+      } else if( event.keyCode == 189 || event.keyCode == 109 ) { // "."
+        this.keyText += "-";
       }  
 
       // this.keyText += event.key;

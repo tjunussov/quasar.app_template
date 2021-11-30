@@ -28,7 +28,14 @@ export default {
   },
 }
 </script>
-<style lang="stylus">
+<style lang="sass">
+
+// .q-toggle__track
+//   height: 0.6em
+//   border-radius: 0.5em
+
+// .q-toggle__thumb
+//   top: 0.35em
 
 </style>
 

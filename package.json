@@ -1,31 +1,31 @@
 {
-  "name": "instore.tastamat.com",
-  "version": "0.13.1",
-  "description": "Instore Delivery Management App",
-  "productName": "Instore App",
-  "author": "Tastamat Team",
+  "name": "name",
+  "version": "0.0.1",
+  "description": "Default Quasar Template",
+  "productName": "Template App",
+  "author": "TimTJeyJun",
   "private": true,
   "scripts": {
     "test": "echo \"No test specified\" && exit 0",
     "boot": "quasar new boot notify",
     "ver": "npm version minor --no-git-tag-version",
-    "ver patch": "npm version patch --no-git-tag-version",
+    "verpatch": "npm version patch --no-git-tag-version",
     "icon": "icongenie generate -m pwa --icon public/applogo.png -b public/splash.png --skip-trim"
   },
   "dependencies": {
     "@quasar/extras": "^1.0.0",
-    "autoprefixer": "^10.3.7",
     "axios": "^0.21.1",
-    "code-128-encoder": "^3.1.1",
     "core-js": "^3.6.5",
     "postcss": "^8.3.11",
     "quasar": "^2.0.0",
     "tailwindcss": "^2.2.17",
     "tiny-emitter": "^2.1.0",
     "vue-i18n": "^9.0.0",
-    "vuex": "^4.0.1"
+    "vuex": "^4.0.1",
+    "vuex-persist": "^3.1.3"
   },
   "devDependencies": {
+    "autoprefixer": "^10.3.7",
     "@quasar/app": "^3.0.0",
     "axios-mock-adapter": "^1.20.0",
     "pug": "^3.0.2",

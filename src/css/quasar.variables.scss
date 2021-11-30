@@ -12,7 +12,7 @@
 // to match your app's branding.
 // Tip: Use the "Theme Builder" on Quasar's documentation website.
 
-$primary   : #1a009f;
+$primary   : #31373d;
 $secondary : #26A69A;
 $accent    : #9C27B0;
 
@@ -40,14 +40,3 @@ $button-padding                 : 14px 20px !default;
 $button-dense-padding           : .285em !default;
 $button-font-size               : 18px !default;
 
-
-.q-field__label {
-  font-size: inherit;
-}
-
-body {
-  letter-spacing: -0.02em;
-}
-.text-h5, .text-h6 {
-  letter-spacing: -0.01em !important;
-}

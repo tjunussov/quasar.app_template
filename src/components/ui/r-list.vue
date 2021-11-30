@@ -1,6 +1,7 @@
 
 <template lang="pug">
-q-list.r-list(Zbordered separator Zpadding dark :class="{'r-list-padding':nopadding}")
+.q-px-md.q-py-sm.text-grey.text-weight-medium.text-small {{label}}
+q-list.r-list.bg-white(bordered separator Zpadding Zdark :class="{'r-list-padding':nopadding}")
   slot
 </template>
 
@@ -9,8 +10,12 @@ q-list.r-list(Zbordered separator Zpadding dark :class="{'r-list-padding':nopadd
 
 
 export default {
+  inheritAttrs: false,
   name: 'r-list',
   props: {
+    label:{
+      type: String
+    },
     nopadding: {
       type: Boolean,
       default: false

@@ -8,15 +8,34 @@ import { Notify } from 'quasar'
 // good idea to move this instance creation inside of the
 // "export default () => {}" function below (which runs individually
 // for each client)
-const $http = axios.create({ baseURL: 'https://app.instore.tastamat.com/api' })
 
-export default boot(({ app }) => {
+var baseURL = null;
+var subpath = null;
+
+const $http = axios.create()
+
+export default boot(({ app, store }) => {
   // for use inside Vue files (Options http) through this.$axios and this.$http
 
   // app.config.globalProperties.$axios = axios
   // ^ ^ ^ this will allow you to use this.$axios (for Vue Options http form)
   //       so you won't necessarily have to import axios in each vue file
 
+  // axios.defaults.headers.common.Authorization = `Bearer ${store.getters['auth/keycloak'].token}` store.state['location'];
+
+  store.watch(() => store.getters.server.baseURL,(v)=>{
+    console.debug('--> baseURL',v)
+    baseURL = v;
+    $http.defaults.baseURL = baseURL;
+  },{ immediate: true })
+
+  store.watch(() => store.getters.server.location,(v)=>{
+    console.debug('--> location',v)
+    $http.defaults.subpath ='/locations/' + v;
+  },{ immediate: true })
+
+  // setBaseUrl();
+  
   app.config.globalProperties.$http = $http
   // ^ ^ ^ this will allow you to use this.$api (for Vue Options API form)
   //       so you can easily perform requests against your app's API

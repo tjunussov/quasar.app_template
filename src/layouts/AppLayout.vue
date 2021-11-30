@@ -1,41 +1,62 @@
 <template lang="pug">
-q-layout(view='lHr LpR lFr' :class="dark?'bg-black':'bg-grey-4'")
+q-layout(view='lHr LpR lFr' :class="(dark?'bg-black':'')" @click.native="$bus.$emit('dialogcancel')")
   Keyboard
   q-header.shadow-light(height-hint="98" :class="dark?'bg-black':'bg-white'")
     q-toolbar.q-py-sm.q-px-md(:class="dark?'text-dark':'text-primary'" dark)
-      r-btn(icon='menu' aria-label='Menu' @click='toggleLeftDrawer')
+      slot(name="header-left")
+        r-btn(icon="menu" aria-label='Menu' @click='toggleLeftDrawer' :text-color="menuShow?'primary':'grey-3'")
       q-toolbar-title.text-h5.text-center.text-weight-bold(:class="dark?'':'text-black'")
-        slot(name="header") 
+        slot(name="header")
       //- r-btn(icon='person')
       
-      slot(name="header-right"): r-btn(icon='support_agent' @click="test2")
+      slot(name="header-right")
+    //- q-list.bg-red(v-if="ui.mock" @click="ui.mock = false")
+      q-item
+        q-item-section(avatar)
+        q-item-section.text-center.text-weight-bold.q-mr-md DEMO MODE
+        q-item-section(side)
+          q-icon(name="close" color="white")
+
     slot(name="list")
     q-ajax-bar(ref="bar" color="primary" size="4px")
-  q-drawer.bg-primary(v-model='leftDrawerOpen' :width="250" show-if-above bordered  side="left" :breakpoint='1400' dark)
-    Menu
+  slot(name="menu")
+    q-drawer.bg-primary(v-model='left' :width="250" Zshow-if-above bordered  side="left" :breakpoint='1400' dark)
+      Menu
   q-page-container
     slot
-  slot(name="footer")
-    q-footer.bg-white.shadow-light(  Zbordered :class="{'ios-footer q-pb-md':$q.platform.is.ios}")
+  slot(name="footer" v-if="!ui.lock")
+    //- q-footer.bg-white.shadow-light(Zbordered :class="{'ios-footer q-pb-md':$q.platform.is.ios}")
       slot(name="footer-body"): Nav.text-grey
+
+  PinPad(v-model="showPinPadDialog" @ok="left = true")
 
 </template>
 
 <script>
 import Menu from 'components/Menu.vue'
-import Nav from 'components/Nav.vue'
+// import Nav from 'components/Nav.vue'
+import PinPad from 'components/PinPad.vue'
 import Keyboard from 'components/utils/Keyboard.vue'
 import { Dialog as Notify } from 'boot/dialog'
 
-import { defineComponent, ref, onMounted  } from 'vue'
+import { mapState, mapGetters, mapActions } from 'vuex'
+import { mapXGetters } from 'src/store'
 
-export default defineComponent({
+export default {
   name: 'AppLayout',
 
   components: {
     Menu,
-    Nav,
-    Keyboard
+    // Nav,
+    Keyboard,
+    PinPad
+  },
+  computed:{
+    ...mapXGetters(['left','ui','menu']),
+    menuShow(){
+      //  in settings menu force display menu button
+      return this.menu;
+    },
   },
   props: {
     dark: {
@@ -43,41 +64,39 @@ export default defineComponent({
       default: false
     },
   },
-
-
-  setup () {
-    const leftDrawerOpen = ref(false)
-    const bar = ref(null)
-
-    // onMounted(() => {
-    //   bar.value.start()
-    // });
-
+  data(){
     return {
-      bar,
-      leftDrawerOpen,
-      toggleLeftDrawer () {
-        leftDrawerOpen.value = !leftDrawerOpen.value
-      },
-      resetScroll (el, done) {
-        document.documentElement.scrollTop = 0
-        document.body.scrollTop = 0
-        done()
-      },
-      test2(){
-        Notify.create({type: 'negative',message: 'errorMessage', title:"Test",details:"Order <b>123123</b>"})
-      },
+      showPinPadDialog:false,
     }
+  },
+  methods:{
+    yourCallBackFunction(){
+      alert('asd');
+    },
+    toggleLeftDrawer () {
+      if(this.menuShow){
+        this.left = !this.left
+      } else {
+        // console.log('this.showPinPadDialog',this.showPinPadDialog);
+        this.showPinPadDialog = true;
+      }
+    },
+    resetScroll (el, done) {
+      document.documentElement.scrollTop = 0
+      document.body.scrollTop = 0
+      done()
+    },
+    test2(){
+      Notify.create({type: 'negative',message: 'errorMessage', title:"Test",details:"Order <b>123123</b>"})
+    },
   }
-})
+}
 </script>
 
 <style lang="sass">
 
-.barcode
-  font-family: 'code128' !important
-  font-size: 44px  !important
-  line-height: 52px
+.font-mono
+  font-family: monospace
 
 .shadow-light 
   box-shadow: 0 5px 25px rgb(0 0 0 / 10%)
@@ -90,6 +109,11 @@ export default defineComponent({
 .q-separator--dark
   background: rgba(255, 255, 255, 0.18)
 
+.text-small 
+  font-size: 14px
+
+.mock 
+  border: 5px solid #f00
 
 .max-width
   max-width: 640px

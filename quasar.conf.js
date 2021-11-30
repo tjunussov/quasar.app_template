@@ -7,6 +7,7 @@
 // https://quasar.dev/quasar-cli/quasar-conf-js
 
 const { configure } = require('quasar/wrappers');
+const path = require('path')
 
 module.exports = configure(function (ctx) {
   return {
@@ -31,7 +32,8 @@ module.exports = configure(function (ctx) {
       'notify',
       'dialog',
       'speech',
-      // 'router',
+      'router',
+      'persist',
     ],
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
@@ -89,6 +91,11 @@ module.exports = configure(function (ctx) {
           test: /\.pug$/,
           loader: 'pug-plain-loader'
         })
+
+        cfg.resolve.alias = {
+          ...cfg.resolve.alias, // This adds the existing alias
+          '@': path.resolve(__dirname, './src'),
+        }
         /*cfg.module.rules.push({
           enforce: 'pre',
           test: /\.(js|vue)$/,
@@ -128,13 +135,13 @@ module.exports = configure(function (ctx) {
         'Meta',
         'Notify',
         'Dialog',
-        'LoadingBar'
+        'LoadingBar',
       ]
     },
 
     // animations: 'all', // --- includes all animations
     // https://quasar.dev/options/animations
-    animations: ["fadeIn", "fadeOut","slideOutDown","flipInX","slideInDown"],
+    animations: ["fadeIn", "fadeOut","slideOutDown","fadeInLeft","fadeOutRight","flipInX","slideInDown","shakeX","flash"],
 
     // https://quasar.dev/quasar-cli/developing-ssr/configuring-ssr
     ssr: {
@@ -211,6 +218,12 @@ module.exports = configure(function (ctx) {
     // Full list of options: https://quasar.dev/quasar-cli/developing-cordova-apps/configuring-cordova
     cordova: {
       // noIosLegacyBuildFlag: true, // uncomment only if you know what you are doing
+      // Quasar handles app exit on mobile phone back button.
+      backButtonExit: false,
+
+      // On the other hand, the following completely
+      // disables Quasar's back button management.
+      backButton: false
     },
 
     // Full list of options: https://quasar.dev/quasar-cli/developing-capacitor-apps/configuring-capacitor

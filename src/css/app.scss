@@ -1,1 +1,27 @@
 // app global css in SCSS form
+
+.q-field__label {
+  top: 10px !important;
+}
+
+body {
+  letter-spacing: -0.02em;
+}
+.text-h5, .text-h6, .text-h1, .text-h3 {
+  letter-spacing: -0.01em !important;
+}
+
+// .text-h1 {
+//   font-size: 10em !important;
+//   line-height: 1em;
+// }
+
+// .text-h2 {
+//   font-size: 6em !important;
+//   line-height: 1em;
+// }
+
+
+:root {
+  --animate-duration: 1s;
+}
